@@ -12,13 +12,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-import LogoImg from '../images/logo.jpg';
+import LogoImg from '../../images/logo.jpg';
 
 const pages = ['Home', 'Programs', 'Coaches', 'Articles'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 
-const ResponsiveAppBar = () => {
+const ClientNavbarLayout = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -138,4 +138,4 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 };
-export default ResponsiveAppBar;
+export default ClientNavbarLayout;

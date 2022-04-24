@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HubTemplate from "./HubTemplate";
 
 import { Link } from "react-router-dom";
+import ClientNavbarLayout from "../ClientSide/ClientNavbarLayout";
 
 const theme = createTheme();
 
@@ -50,6 +51,10 @@ export default function SignInSide() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
+                        <Typography component="p">
+                            Sign in and start managing your sport program!
+                        </Typography>
+
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                             <TextField
                                 margin="normal"
