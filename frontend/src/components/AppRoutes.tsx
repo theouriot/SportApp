@@ -8,6 +8,7 @@ import {
 
 import Login from './HomePage/Login';
 import Register from './HomePage/Register'
+import ChangeInfos from "./ClientSide/ChangeInfos";
 
 const AppRoutes = () => {
 
@@ -17,6 +18,7 @@ const AppRoutes = () => {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/home/infos" element={<ChangeInfos />} />
                 </Routes>
             </BrowserRouter>
         </Fragment>
