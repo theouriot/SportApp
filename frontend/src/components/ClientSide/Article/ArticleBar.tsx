@@ -27,23 +27,13 @@ const ArticleBar: React.FC = () => {
     }, []);
     return (
         <>
-            <header>
-                <ClientNavbarLayout/>
-            </header>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <body>
-            <Grid container spacing={2}>
-
+            <Grid container spacing={1}>
             {articles &&
             articles.map((article,index) => (
                 <Fragment key={index}>
-                    <Grid item xs={6} md={8} key={index}>
+                    <Grid item xs={4}>
                         <Link to={"/home/article/"+ article._id} key={index} style={{textDecoration:"none" }}>
-                        <CardActionArea>
-                            <Card sx={{ width: 400,borderRadius: "20px" } }>
+                            <Card sx={{ width: 400,borderRadius: "20px" }}>
                                 <CardHeader
                                     avatar={
                                         <Avatar aria-label="recipe">
@@ -56,17 +46,15 @@ const ArticleBar: React.FC = () => {
                                 <CardMedia
                                     component="img"
                                     height="194"
-                                    image={article.image}
+                                    image={require(''+article.image)} // require image
                                     alt="descriptive image"
                                 />
                             </Card>
-                        </CardActionArea>
                         </Link>
                     </Grid>
                 </Fragment>
             ))}
             </Grid>
-            </body>
         </>
     );
 };

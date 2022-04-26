@@ -22,7 +22,19 @@ const ArticlePage: React.FC = () => {
                     console.log(e);
                 });
         };
+        const addView = async (id: any) => {
+            await ArticleService.addView(id)
+                .then((response: any) => {
+                    console.log("vue ajoutée")
+                })
+                .catch((e: Error) => {
+                    console.log(e);
+                });
+        };
+
         getArticleByID(props.id).then( () => "ok");
+        addView(props.id).then( () => "ok");
+
     }, [props.id]);
 
     return (
@@ -37,7 +49,7 @@ const ArticlePage: React.FC = () => {
                 <h2>by {article?.author}</h2>
                 <h3>Description: {article?.description}</h3>
                 <p>{article?.content}</p>
-                <h5>Views: {article?.viewCount} Likes: {article?.viewCount}</h5>
+                <h5>Views: {article?.viewCount} Likes: {article?.likeCount}</h5>
            </body>
         </div>
     );

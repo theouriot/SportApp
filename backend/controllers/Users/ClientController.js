@@ -32,7 +32,7 @@ async function updateClient(id, alias,email,password) {
     } catch (e) {
         throw e;
     }
-}
+};
 
 async function deleteClient(id) {
     try {
@@ -41,7 +41,7 @@ async function deleteClient(id) {
     } catch (e) {
         throw e;
     }
-}
+};
 
 module.exports = {
     getAllClients,

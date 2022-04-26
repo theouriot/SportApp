@@ -57,4 +57,30 @@ router.put("/", async function (req, res, next) {
     }
 });
 
+router.put("/addView", async function (req, res, next) {
+    try {
+        const id = req.query.id;
+        const article = await articleController.addView(id);
+        if (!article) {
+            return res.status(204).json({message: "No article with this id"});
+        }
+        res.status(200).json({ message: "Update done"})
+    } catch (e) {
+        res.status(500).json({ message: "Can't load data" });
+    }
+});
+
+router.put("/addLike", async function (req, res, next) {
+    try {
+        const id = req.query.id;
+        const article = await articleController.addLike(id);
+        if (!article) {
+            return res.status(204).json({message: "No article with this id"});
+        }
+        res.status(200).json({ message: "Update done"})
+    } catch (e) {
+        res.status(500).json({ message: "Can't load data" });
+    }
+});
+
 module.exports = router;

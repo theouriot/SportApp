@@ -11,6 +11,7 @@ import Register from './HomePage/Register'
 import ChangeInfos from "./ClientSide/ChangeInfos";
 import ArticlePage from "./ClientSide/Article/ArticlePage";
 import ArticleBar from "./ClientSide/Article/ArticleBar";
+import ClientHomePage from "./ClientSide/ClientHome/ClientHomePage";
 
 const AppRoutes = () => {
     return (
@@ -19,7 +20,7 @@ const AppRoutes = () => {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/home/" element={<ArticleBar />} />
+                    <Route path="/home/" element={<ClientHomePage />} />
                     <Route path="/articles/" element={<ArticleBar />} />
                     <Route path="/home/article/:id" element={<ArticlePage/>} />
                 </Routes>

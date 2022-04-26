@@ -12,14 +12,12 @@ async function createArticle(body) {
         const image = body.image
 
         const article = await ArticleModel.create({name,author,description,content,likeCount,viewCount,image});
-
         return article;
     }
     catch (e) {
         throw e;
     }
 }
-
 
 async function getAllArticles() {
     try {
@@ -58,6 +56,30 @@ async function updateArticle(id, body) {
     }
 }
 
+async function addView(id) {
+    try {
+        const res = await ArticleModel.updateOne({_id: id},
+            {
+                $inc: { viewCount: 1 },
+            });
+        return res
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function addLike(id) {
+    try {
+        const res = await ArticleModel.updateOne({_id: id},
+            {
+                $inc: { likeCount: 1 },
+            });
+        return res
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function deleteArticle(id) {
     try {
         const res = await ArticleModel.deleteOne({ _id: id }).exec();
@@ -72,5 +94,7 @@ module.exports = {
     getAllArticles,
     getArticleById,
     updateArticle,
+    addView,
+    addLike,
     deleteArticle,
 };

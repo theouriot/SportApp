@@ -21,12 +21,17 @@ const remove = async (id: any) => {
     return tmp.data;
 };
 
+const addView = async (id: any) => {
+    const tmp = await http.put<any>(`/article/addView?id=${id}`);
+    return tmp.data;
+}
+
 const ArticleService = {
     create,
     getAllArticles,
     remove,
-    getArticleByID
-
+    getArticleByID,
+    addView,
 };
 
 export default ArticleService;
