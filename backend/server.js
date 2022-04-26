@@ -12,6 +12,7 @@ app.use(cors());
 const clientRoute = require("./routes/ClientRoute");
 const articleRoute = require("./routes/ArticleRoute");
 const authentificationRoute = require("./routes/AuthentificationRoute");
+const stepRoute = require("./routes/StepRoute")
 
 /* Routes */
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/article", articleRoute)
 app.use("/signin", authentificationRoute)
 app.use("/client", clientRoute)
+app.use("/step", stepRoute)
 
 /* Server */
 app.listen(process.env.PORT, () => {

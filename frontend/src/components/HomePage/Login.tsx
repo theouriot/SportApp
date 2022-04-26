@@ -12,7 +12,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HubTemplate from "./HubTemplate";
 
 import { Link } from "react-router-dom";
-import ClientNavbarLayout from "../ClientSide/ClientNavbarLayout";
 
 const theme = createTheme();
 

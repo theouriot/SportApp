@@ -8,10 +8,9 @@ import {
 
 import Login from './HomePage/Login';
 import Register from './HomePage/Register'
-import ChangeInfos from "./ClientSide/ChangeInfos";
 import ArticlePage from "./ClientSide/Article/ArticlePage";
-import ArticleBar from "./ClientSide/Article/ArticleBar";
 import ClientHomePage from "./ClientSide/ClientHome/ClientHomePage";
+import ArticlesPage from "./ClientSide/Article/ArticlesPage";
 
 const AppRoutes = () => {
     return (
@@ -21,7 +20,7 @@ const AppRoutes = () => {
                     <Route path="/" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/home/" element={<ClientHomePage />} />
-                    <Route path="/articles/" element={<ArticleBar />} />
+                    <Route path="/articles/" element={<ArticlesPage />} />
                     <Route path="/home/article/:id" element={<ArticlePage/>} />
                 </Routes>
             </BrowserRouter>
