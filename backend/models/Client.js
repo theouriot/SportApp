@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
 
 const eventSchema = mongoose.Schema({
-    idUser: { type: Int, required: true, unique: true},
-    login: { type: String, required: true, unique: true},
-    name: { type: String, required: true},
+    alias: { type: String, required: true, unique: true},
+    email: { type: String, required: true},
     password: { type: String, required: true },
-
 });
 
-module.exports = mongoose.model('User', eventSchema);
+module.exports = mongoose.model('Client', eventSchema);
