@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-
+import { Link } from "react-router-dom";
 import LogoImg from '../../images/logo.jpg';
 
 const pages = ['Home', 'Programs', 'Coaches', 'Articles'];
@@ -38,7 +38,7 @@ const ClientNavbarLayout = () => {
     };
 
     return (
-        <AppBar style={{ background: '#000000' }}>
+        <AppBar style={{ background: '#000000'}} position="fixed">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -94,14 +94,16 @@ const ClientNavbarLayout = () => {
                     >
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
+                        {pages.map((page,index) => (
+                            <Link to={"/"+page.toLowerCase()} key={index} style={{textDecoration:"none" }}>
+                                <Button
+                                    key={page}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page}
+                                </Button>
+                            </Link>
                         ))}
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>

@@ -5,6 +5,7 @@ const eventSchema = mongoose.Schema({
     // temp author
     author: { type: Number,required: true},
     // futur author author: { type: mongoose.Schema.Types.ObjectId, ref: 'Coach',required: true},
+    description: { type: String},
     content: { type: String},
     likeCount: { type:Number, required: true},
     viewCount: { type:Number, required: true},

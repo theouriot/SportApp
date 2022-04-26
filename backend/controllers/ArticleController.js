@@ -4,13 +4,14 @@ async function createArticle(body) {
     try {
         const name = body.name
         const author = body.author
+        const description = body.description;
         const content = body.content
         /* At the beginning there is no view and like */
         const likeCount = 0;
         const viewCount = 0;
         const image = body.image
 
-        const article = await ArticleModel.create({name, author, content,likeCount,viewCount,image });
+        const article = await ArticleModel.create({name,author,description,content,likeCount,viewCount,image});
 
         return article;
     }
@@ -31,8 +32,9 @@ async function getAllArticles() {
 
 async function getArticleById(id) {
     try{
-        const articles = await ArticleModel.find({id});
-        return articles;
+        const article = await ArticleModel.findOne({_id: id});
+
+        return article;
     } catch (e) {
         throw e;
     }
@@ -45,6 +47,7 @@ async function updateArticle(id, body) {
                 $set:{
                     "name": body.name,
                     "author": body.author,
+                    "description": body.description,
                     "content": body.content,
                     "image": body.image,
                 },

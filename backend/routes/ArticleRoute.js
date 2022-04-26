@@ -20,8 +20,8 @@ router.get("/all", async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
     try {
-        const alias = req.query.alias;
-        const article = await articleController.getArticleById(alias);
+        const id = req.query.id;
+        const article = await articleController.getArticleById(id);
         if (!article) {
             return res.status(204).json({message: "No article with this id"});
         }
