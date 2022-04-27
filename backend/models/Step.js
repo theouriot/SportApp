@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const eventSchema = mongoose.Schema({
+    programRef: { type: mongoose.Schema.Types.ObjectId, ref: 'programRef',required: true},
     name: { type: String, required: true},
     stepNumber: { type: Number, required: true},
     image: { type: String, required: true},

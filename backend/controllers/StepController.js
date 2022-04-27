@@ -4,7 +4,7 @@ const StepModel = require("../models/Step");
 
 async function createStep(body) {
     try {
-        console.log(body)
+        const programRef = body.programRef;
         const name = body.name;
         const stepNumber = body.stepNumber;
         const image = body.image;
@@ -13,7 +13,7 @@ async function createStep(body) {
         const description = body.description;
         const recommandedTime = body.recommandedTime;
 
-        const step = await StepModel.create({name,stepNumber,image,sets,reps,description,recommandedTime});
+        const step = await StepModel.create({programRef,name,stepNumber,image,sets,reps,description,recommandedTime});
         return step;
     }
     catch (e) {
@@ -43,6 +43,7 @@ async function updateStep(id, body) {
     try {
         const res = await StepModel.updateOne({_id: id},
             {
+                /* I prefer not to give the right to modify the programRef for more security */
                 $set:{
                     "name": body.name,
                     "stepNumber":  body.stepNumber,
