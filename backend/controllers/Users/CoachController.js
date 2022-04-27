@@ -1,6 +1,7 @@
-const ClientModel = require("../../models/Client");
+const ClientModel = require("../../models/Coach");
+const mongoose = require("mongoose");
 
-async function getAllClients() {
+async function getAllCoaches() {
     try {
         const clients = await ClientModel.find();
         return clients;
@@ -9,7 +10,7 @@ async function getAllClients() {
     }
 };
 
-async function getClientByAlias(alias) {
+async function getCoachByAlias(alias) {
     try{
         const clients = await ClientModel.find({alias});
         return clients;
@@ -18,14 +19,18 @@ async function getClientByAlias(alias) {
     }
 };
 
-async function updateClient(id,body) {
+async function updateCoach(id,body) {
     try {
         const res = await ClientModel.updateOne({_id: id},
             {
                 $set:{
                     "alias": body.alias,
                     "email": body.email,
-                    "password": body.password
+                    "password": body.password,
+                    "followers": body.followers,
+                    "programs": body.programs,
+                    "articles": body.articles,
+                    "profilePicture": body.profilePicture,
                 },
             });
         return res
@@ -34,7 +39,7 @@ async function updateClient(id,body) {
     }
 };
 
-async function deleteClient(id) {
+async function deleteCoach(id) {
     try {
         const res = await ClientModel.deleteOne({ _id: id }).exec();
         return res;
@@ -44,8 +49,8 @@ async function deleteClient(id) {
 };
 
 module.exports = {
-    getAllClients,
-    getClientByAlias,
-    updateClient,
-    deleteClient,
+    getAllCoaches,
+    getCoachByAlias,
+    updateCoach,
+    deleteCoach,
 };

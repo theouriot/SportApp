@@ -3,16 +3,16 @@ const stepController = require("../controllers/StepController");
 
 router.post("/", async function (req, res, next) {
     try {
-        const article = await stepController.createStep(req.body);
-        res.status(201).json({article});
+        const step = await stepController.createStep(req.body);
+        res.status(201).json({step});
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
 });
 router.get("/all", async function (req, res, next) {
     try {
-        const article = await stepController.getAllSteps();
-        res.status(200).json(article)
+        const step = await stepController.getAllSteps();
+        res.status(200).json(step)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -21,11 +21,11 @@ router.get("/all", async function (req, res, next) {
 router.get("/", async function (req, res, next) {
     try {
         const id = req.query.id;
-        const article = await stepController.getStepById(id);
-        if (!article) {
+        const step = await stepController.getStepById(id);
+        if (!step) {
             return res.status(204).json({message: "No step with this id"});
         }
-        res.status(200).json(article)
+        res.status(200).json(step)
     } catch (e) {
         res.status(500).json({ message: "Can't load data" });
     }
@@ -34,8 +34,8 @@ router.get("/", async function (req, res, next) {
 router.delete("/", async function (req, res, next) {
     try {
         const id = req.query.id;
-        const article = await stepController.deleteStep(id);
-        if (!article) {
+        const step = await stepController.deleteStep(id);
+        if (!step) {
             return res.status(204).json({message: "No step with this id"});
         }
         res.status(200).json({ message: "Delete done"})
@@ -47,8 +47,8 @@ router.delete("/", async function (req, res, next) {
 router.put("/", async function (req, res, next) {
     try {
         const id = req.query.id;
-        const article = await stepController.updateStep(id,req.body);
-        if (!article) {
+        const step = await stepController.updateStep(id,req.body);
+        if (!step) {
             return res.status(204).json({message: "No step with this id"});
         }
         res.status(200).json({ message: "Update done"})
