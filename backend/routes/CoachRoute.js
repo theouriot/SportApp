@@ -3,8 +3,8 @@ const coachController = require("../controllers/Users/CoachController");
 
 router.get("/all", async function (req, res, next) {
     try {
-        const coach = await coachController.getAllCoaches();
-        res.status(200).json(coach)
+        const coaches = await coachController.getAllCoaches();
+        res.status(200).json(coaches)
     } catch (e) {
         res.status(500).json({ message: "Can't load data" });
     }

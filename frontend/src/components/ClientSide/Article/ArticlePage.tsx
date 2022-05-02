@@ -5,6 +5,7 @@ import ArticleService from "../../../services/ArticleService";
 import Article from "../../../types/Article"
 import {useParams} from "react-router-dom";
 import ClientNavbarLayout from "../ClientNavbarLayout";
+import {Button} from "@mui/material";
 
 
 const ArticlePage: React.FC = () => {
@@ -44,13 +45,12 @@ const ArticlePage: React.FC = () => {
             <br/>
             <br/>
             <br/>
-           <body>
                 <h1>{article?.name}</h1>
                 <h2>by {article?.author}</h2>
                 <h3>Description: {article?.description}</h3>
                 <p>{article?.content}</p>
-                <h5>Views: {article?.viewCount} Likes: {article?.likeCount}</h5>
-           </body>
+                <h5>Views: {article?.viewCount} Likes: {article?.likeCount} <Button variant="text">Like</Button></h5>
+
         </div>
     );
 };

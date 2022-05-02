@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import ArticleBar from "../Article/ArticleBar";
 import ClientNavbarLayout from "../ClientNavbarLayout";
 import {Card} from "@mui/material";
+import ProgramBar from "../Programs/ProgramBar";
 
 const images = [
     {
@@ -131,7 +132,7 @@ export default function ClientHomePage() {
         </Box>
             <Card >
                 <h2>Last Activities</h2>
-                <p>TO DO</p>
+                <ProgramBar></ProgramBar>
             </Card>
             <Card>
                 <h2>Articles</h2>

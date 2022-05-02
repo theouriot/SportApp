@@ -1,9 +1,9 @@
 import React from 'react';
 import AppRoutes from "./components/AppRoutes";
 
-import {createMuiTheme, ThemeProvider} from "@mui/material";
+import {createTheme, ThemeProvider} from "@mui/material";
 
-const theme = createMuiTheme({
+const theme = createTheme({
     typography: {
         fontFamily: [
             'FreeMono',

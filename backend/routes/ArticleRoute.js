@@ -11,8 +11,8 @@ router.post("/", async function (req, res, next) {
 });
 router.get("/all", async function (req, res, next) {
     try {
-        const article = await articleController.getAllArticles();
-        res.status(200).json(article)
+        const articles = await articleController.getAllArticles();
+        res.status(200).json(articles)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }

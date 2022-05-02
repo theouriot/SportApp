@@ -116,6 +116,7 @@ export default function SignInSide() {
                                     Register me
                                 </Button>
                             </Link>
+
                             <Link to='/home' key={1} style={{textDecoration:"none" }}>
                                 <Button
                                     fullWidth

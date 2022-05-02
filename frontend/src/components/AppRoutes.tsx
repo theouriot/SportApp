@@ -11,6 +11,7 @@ import Register from './HomePage/Register'
 import ArticlePage from "./ClientSide/Article/ArticlePage";
 import ClientHomePage from "./ClientSide/ClientHome/ClientHomePage";
 import ArticlesPage from "./ClientSide/Article/ArticlesPage";
+import Programs from "./Program/Programs";
 
 const AppRoutes = () => {
     return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/home/" element={<ClientHomePage />} />
                     <Route path="/articles/" element={<ArticlesPage />} />
+                    <Route path="/home/programs" element={<Programs />} />
                     <Route path="/home/article/:id" element={<ArticlePage/>} />
                 </Routes>
             </BrowserRouter>

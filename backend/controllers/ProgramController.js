@@ -1,19 +1,19 @@
 const ProgramModel = require("../models/Program");
-const mongoose = require("mongoose");
 
 async function createProgram(body) {
     try {
         const name = body.name
         const creator = body.creator
+        const idCategory = body.idCategory
         const description = body.description;
         /* At the beginning there is no view and like */
         const likeCount = 0;
         const viewCount = 0;
-        const image = body.image
-        const steps = body.steps
+        const steps = body.steps;
         /* At the beginning there is no comments on an article */
-        const comments = []
-        const program = await ProgramModel.create({name,creator,description,likeCount,viewCount,image,steps,comments});
+        const comments = [];
+        const image = body.image;
+        const program = await ProgramModel.create({name,creator,idCategory,description,likeCount,viewCount,steps,comments,image});
         return program;
     }
     catch (e) {
@@ -47,11 +47,13 @@ async function updateProgram(id, body) {
                 $set:{
                     "name": body.name,
                     "creator": body.creator,
+                    "idCategory": body.idCategory,
                     "description": body.description,
                     "content": body.content,
                     "image": body.image,
                     "steps": body.steps,
                     "comments": body.comments,
+                    "image": body.image
                 },
             });
         return res
