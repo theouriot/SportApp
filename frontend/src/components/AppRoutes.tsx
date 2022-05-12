@@ -13,6 +13,8 @@ import ArticlesPage from "./ClientSide/Article/ArticlesPage";
 import Programs from "./Program/Programs";
 import ProgramPage from "./ClientSide/Programs/ProgramPage";
 
+/* Coach Side */
+import CoachHome from "./CoachSide/CoachHomePage";
 
 const AppRoutes = () => {
     return (
@@ -25,6 +27,7 @@ const AppRoutes = () => {
                     <Route path="/programs" element={<Programs />} />
                     <Route path="/article/:id" element={<ArticlePage/>} />
                     <Route path="/program/:id" element={<ProgramPage/>} />
+                    <Route path="/mySpace" element={<CoachHome/>} />
                 </Routes>
             </BrowserRouter>
         </Fragment>

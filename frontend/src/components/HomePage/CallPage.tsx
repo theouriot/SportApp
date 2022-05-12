@@ -36,19 +36,6 @@ export default function CallPage() {
                         >
                             Register me
                         </Button>
-                    <Link to='/home' key={1} style={{textDecoration: "none"}}>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            style={{
-                                borderRadius: 10,
-                                backgroundColor: "#20DF7F",
-                                fontSize: "18px"
-                            }}
-                        >
-                            Home
-                        </Button>
-                    </Link>
                 </Fragment>
             :
                 <Fragment>
@@ -64,20 +51,6 @@ export default function CallPage() {
                         >
                             Login me
                         </Button>
-                    <Link to='/home' key={1} style={{textDecoration: "none"}}>
-                        <Button
-                        fullWidth
-                        variant="contained"
-
-                        style={{
-                        borderRadius: 10,
-                        backgroundColor: "#20DF7F",
-                        fontSize: "18px"
-                        }}
-                        >
-                        Home
-                        </Button>
-                    </Link>
                 </Fragment>
             }
 

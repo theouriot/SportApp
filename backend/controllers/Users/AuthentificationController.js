@@ -7,7 +7,7 @@ const asyncHandler = require('express-async-handler')
 async function signUpClient(body) {
     try {
         const {alias , email, password}  = body
-
+        console.log(alias + " - " + email + " - " + password)
         /* We search if the email already exists */
         const clientEmail = await ClientModel.findOne({email})
         const coachEmail = await CoachModel.findOne({email})
@@ -77,23 +77,25 @@ async function loginClient(body) {
     // Check for user email
     const clientMail = await ClientModel.findOne({ email })
     const clientAlias = await ClientModel.findOne({ alias })
+
     if (clientMail  && (await bcrypt.compare(password, clientMail.password))) {
         return ({
             _id: clientMail.id,
             alias: clientMail.alias,
             email: clientMail.email,
             token: tokenGeneration(clientMail._id),
+            role: "client"
         })
     } else if(clientAlias  && (await bcrypt.compare(password, clientAlias.password))){
-        return clientAlias.json({
+        return ({
             _id: clientAlias.id,
             alias: clientAlias.alias,
             email: clientAlias.email,
             token: tokenGeneration(clientAlias._id),
+            role: "client",
         })
     } else {
-        res.status(400)
-        throw new Error('Invalid credentials')
+        return false;
     }
 }
 
@@ -101,6 +103,7 @@ async function loginCoach(body) {
     const { alias, email, password } = body
 
     // Check for user email
+
     const coachMail = await CoachModel.findOne({ email })
     const coachAlias = await CoachModel.findOne({ alias })
     if (coachMail  && (await bcrypt.compare(password, coachMail.password))) {
@@ -109,17 +112,18 @@ async function loginCoach(body) {
             alias: coachMail.alias,
             email: coachMail.email,
             token: tokenGeneration(coachMail._id),
+            role: "coach"
         })
     } else if(coachAlias  && (await bcrypt.compare(password, coachAlias.password))){
-        return coachAlias.json({
+        return ({
             _id: coachAlias.id,
             alias: coachAlias.alias,
             email: coachAlias.email,
             token: tokenGeneration(coachAlias._id),
+            role: "coach"
         })
     } else {
-        res.status(400)
-        throw new Error('Invalid credentials')
+        return false;
     }
 }
 

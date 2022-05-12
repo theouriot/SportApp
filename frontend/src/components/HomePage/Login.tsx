@@ -10,19 +10,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HubTemplate from "./HubTemplate";
+import LockIcon from '@mui/icons-material/Lock';
 
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import User from "../../types/User";
 import AuthService from "../../services/AuthService";
+import {AccountCircle} from "@mui/icons-material";
+import {InputAdornment} from "@mui/material";
 
 const theme = createTheme();
 
 export default function SignInSide() {
+    let navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const signupModel = new User(data.get('id'),data.get('alias'),data.get('email'),data.get('password'));
+        const signupModel = new User(data.get('id'),data.get('email'),data.get('email'),data.get('password'));
         login(signupModel).then(() => "ok");
     };
 
@@ -30,7 +34,14 @@ export default function SignInSide() {
         await AuthService.login(data)
             .then((response: any) => {
                 // TO DO : Made the redirection
-                console.log(response);
+                console.log(response.role);
+                if(response.role == "client"){
+                    navigate('/home/');
+                }
+                else{
+                    navigate('/mySpace/');
+                }
+
             })
             .catch((e: Error) => {
                 // TO DO : Made the error message
@@ -77,8 +88,17 @@ export default function SignInSide() {
                                 autoComplete="email"
                                 autoFocus
                                 style={{
-                                    backgroundColor: "#224957",
+                                    backgroundColor: "#2E2E2E",
                                     borderRadius: 10,
+
+                                }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <AccountCircle />
+                                        </InputAdornment>
+                                    ),
+                                    style: { color: '#fff' },
                                 }}
                                 InputLabelProps={{
                                     style: { color: '#fff' },
@@ -94,8 +114,16 @@ export default function SignInSide() {
                                 id="password"
                                 autoComplete="current-password"
                                 style={{
-                                    backgroundColor: "#224957",
+                                    backgroundColor: "#2E2E2E",
                                     borderRadius: 10,
+                                }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <LockIcon />
+                                        </InputAdornment>
+                                    ),
+                                    style: { color: '#fff' },
                                 }}
                                 InputLabelProps={{
                                     style: { color: '#fff' },

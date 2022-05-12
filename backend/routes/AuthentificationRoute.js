@@ -27,6 +27,7 @@ router.post("/coach/signup", async function (req, res, next) {
 
 router.post("/login", async function (req, res, next) {
     try {
+
         const client = await authentificationController.loginClient(req.body);
         if(!client){
             const coach = await authentificationController.loginCoach(req.body);

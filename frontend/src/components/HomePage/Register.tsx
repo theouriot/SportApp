@@ -14,6 +14,8 @@ import HubTemplate from "./HubTemplate";
 import {Link} from "react-router-dom";
 import AuthService from "../../services/AuthService";
 import User from "../../types/User";
+import {Alert, InputAdornment, Snackbar} from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
 
 const theme = createTheme();
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -21,13 +23,23 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 export default function SignInSide() {
 
     const [checked, setChecked] = React.useState(false);
-    const [valid, setValid] = React.useState(false);
+    const [valid, setValid] = React.useState(true);
+    const [validPassword, setValidPassword] = React.useState(true);
+    const [invalid, setInvalid] = React.useState(false);
+    const [password, setPassword] = React.useState("");
+
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setInvalid(false);
+    };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const signupModel = new User(data.get('id'),data.get('alias'),data.get('email'),data.get('password'));
-        if(checked){
+        if(!checked){
             signUpClient(signupModel).then(r => "ok");
         }
         else{
@@ -36,12 +48,13 @@ export default function SignInSide() {
     };
 
     const signUpClient = async (data: any) => {
-        console.log('dans le signup client')
+        console.log(data);
         await AuthService.signUpClient(data)
             .then((response: any) => {
                 console.log(response);
             })
             .catch((e: Error) => {
+                setInvalid(true)
                 console.log(e);
             });
     };
@@ -64,6 +77,16 @@ export default function SignInSide() {
     const handleValidation = (e: any) => {
         const reg = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
         setValid(reg.test(e.target.value));
+    };
+
+    const checkPasswordEquality = (e: any) => {
+        console.log(password==e.target.value)
+        if(password != e.target.value) {
+            setValidPassword(false);
+        }
+        else{
+            setValidPassword(true);
+        }
     };
 
     return (
@@ -97,71 +120,88 @@ export default function SignInSide() {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Login"
+                                label="Email"
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
                                 onChange={(e) => handleValidation(e)}
                                 error={!valid}
+
                                 style={{
-                                    backgroundColor: "#224957",
+                                    backgroundColor: "#2E2E2E",
                                     borderRadius: 10,
+                                }}
+                                InputProps={{
+                                    style: { color: '#fff' }
                                 }}
                                 InputLabelProps={{
                                     style: { color: '#fff' },
                                 }}
+
                             />
                             <TextField
                                 margin="normal"
                                 required
                                 fullWidth
-                                name="id"
+                                name="alias"
                                 label="Id"
-                                type="id"
-                                id="id"
+                                type="alias"
+                                id="alias"
                                 autoComplete="id"
                                 style={{
-                                    backgroundColor: "#224957",
+                                    backgroundColor: "#2E2E2E",
                                     borderRadius: 10,
+                                }}
+                                InputProps={{
+                                    style: { color: '#fff' }
                                 }}
                                 InputLabelProps={{
                                     style: { color: '#fff' },
                                 }}
                             />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="password"
-                                style={{
-                                    backgroundColor: "#224957",
-                                    borderRadius: 10,
-                                }}
-                                InputLabelProps={{
-                                    style: { color: '#fff' },
-                                }}
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="confirm-password"
-                                label="Confirm your password"
-                                type="confirm-password"
-                                id="confirm-password"
-                                autoComplete="current-password"
-                                style={{
-                                    backgroundColor: "#224957",
-                                    borderRadius: 10,
-                                }}
-                                InputLabelProps={{
-                                    style: { color: '#fff' },
-                                }}
-                            />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="password"
+                                    style={{
+                                        backgroundColor: "#2E2E2E",
+                                        borderRadius: 10,
+                                    }}
+                                    InputProps={{
+                                        style: { color: '#fff' }
+                                    }}
+                                    InputLabelProps={{
+                                        style: { color: '#fff' },
+                                    }}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="confirm-password"
+                                    label="Confirm your password"
+                                    type="password"
+                                    id="confirm-password"
+                                    autoComplete="current-password"
+                                    error={!validPassword}
+                                    style={{
+                                        backgroundColor: "#2E2E2E",
+                                        borderRadius: 10,
+                                    }}
+                                    InputProps={{
+                                        style: { color: '#fff' }
+                                    }}
+                                    InputLabelProps={{
+                                        style: { color: '#fff' },
+                                    }}
+                                    onChange={(e) => checkPasswordEquality(e)}
+                                />
                             <Checkbox {...label} onChange={handleChange} />
                             Are you coach ?
                             <Button
@@ -177,6 +217,11 @@ export default function SignInSide() {
                             >
                                 Register
                             </Button>
+                            <Snackbar open={invalid} autoHideDuration={2000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+                                    An error has occured, the email or alias is already used
+                                </Alert>
+                            </Snackbar>
                         </Box>
                     </Box>
                 </Grid>
