@@ -11,10 +11,15 @@ const getAllPrograms = async () => {
     return tmp.data;
 };
 
+const addView = async (id: any) => {
+    const tmp = await http.put<any>(`/program/addView?id=${id}`);
+    return tmp.data;
+}
 
 const ProgramService = {
     getAllPrograms,
-    getProgramByID
+    getProgramByID,
+    addView
 };
 
 export default ProgramService;

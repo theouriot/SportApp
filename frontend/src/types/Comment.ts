@@ -1,11 +1,14 @@
 export default class Comment{
-    author: number;
+    _id: number | null;
+    author: string;
     content: string;
-    articleRef: number;
+    timestamp: number;
 
-    constructor(author: number, content: string, articleRef: number) {
+    constructor(_id: number | null ,author: string, content: string) {
+        this._id = _id;
         this.author = author;
         this.content = content;
-        this.articleRef = articleRef;
+        this.timestamp =  new Date().getTime();
     }
+
 }

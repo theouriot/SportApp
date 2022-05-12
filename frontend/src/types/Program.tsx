@@ -10,10 +10,9 @@ export default class Program {
     likeCount: number;
     viewCount: number;
     steps?: [Step];
-    comments?: [Comment];
     image?: string;
 
-    constructor(id: number, name: string, creator: number, idCategory: number, description: string, steps: [Step], comments: [Comment], image: string) {
+    constructor(id: number, name: string, creator: number, idCategory: number, description: string, steps: [Step], image: string) {
         this._id = id;
         this.name = name;
         this.creator = creator;
@@ -22,7 +21,6 @@ export default class Program {
         this.likeCount = 0;
         this.viewCount = 0;
         this.steps = steps;
-        this.comments = comments;
         this.image = image;
     }
 

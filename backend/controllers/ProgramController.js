@@ -6,14 +6,16 @@ async function createProgram(body) {
         const creator = body.creator
         const idCategory = body.idCategory
         const description = body.description;
+        const idLevel = body.idLevel;
         /* At the beginning there is no view and like */
         const likeCount = 0;
         const viewCount = 0;
-        const steps = body.steps;
+        const steps = [];
         /* At the beginning there is no comments on an article */
         const comments = [];
         const image = body.image;
-        const program = await ProgramModel.create({name,creator,idCategory,description,likeCount,viewCount,steps,comments,image});
+        const timestamp = new Date().getTime();
+        const program = await ProgramModel.create({name,creator,idCategory,idLevel,description,likeCount,viewCount,steps,comments,image,timestamp});
         return program;
     }
     catch (e) {
@@ -48,9 +50,8 @@ async function updateProgram(id, body) {
                     "name": body.name,
                     "creator": body.creator,
                     "idCategory": body.idCategory,
+                    "idLevel": body.idLevel,
                     "description": body.description,
-                    "content": body.content,
-                    "image": body.image,
                     "steps": body.steps,
                     "comments": body.comments,
                     "image": body.image

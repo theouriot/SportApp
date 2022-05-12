@@ -1,6 +1,5 @@
 export default class Step{
 
-    programRef: number;
     name: string;
     stepNumber: number;
     image: string;
@@ -9,8 +8,7 @@ export default class Step{
     description: string;
     recommandedTime: number
 
-    constructor(programRef: number, name: string, stepNumber: number, image: string, sets: number, reps: number, description: string, recommandedTime: number) {
-        this.programRef = programRef;
+    constructor( name: string, stepNumber: number, image: string, sets: number, reps: number, description: string, recommandedTime: number) {
         this.name = name;
         this.stepNumber = stepNumber;
         this.image = image;

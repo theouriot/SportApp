@@ -31,7 +31,7 @@ const ProgramBar: React.FC = () => {
                 programs.map((program,index) => (
                     <Fragment key={index}>
                         <Grid item xs={4}>
-                            <Link to={"/home/program/"+ program._id} key={index} style={{textDecoration:"none" }}>
+                            <Link to={"/program/"+ program._id} key={index} style={{textDecoration:"none" }}>
                                 <Card sx={{ width: 400,borderRadius: "20px" }}>
                                     <CardHeader
                                         avatar={

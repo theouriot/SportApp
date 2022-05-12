@@ -1,25 +1,36 @@
 const ClientModel = require('../../models/Client');
 const CoachModel = require('../../models/Coach');
 const jwt = require('jsonwebtoken');
-
-const age = 60 * 60 * 24 * 1000 * 100; // correspond to 100 days
-const createToken = (id) => {
-    try {
-        return jwt.sign({id}, process.env.TOKEN_KEY, {
-            expiresIn: age
-        })
-    }catch (e) {
-        console.log(e);
-    }
-};
-
+const bcrypt = require('bcryptjs')
+const asyncHandler = require('express-async-handler')
 
 async function signUpClient(body) {
     try {
-        const alias = body.alias
-        const email = body.email
-        const password = body.password
-        const user = await ClientModel.create({alias, email, password });
+        const {alias , email, password}  = body
+
+        /* We search if the email already exists */
+        const clientEmail = await ClientModel.findOne({email})
+        const coachEmail = await CoachModel.findOne({email})
+        if(clientEmail || coachEmail){
+            res.status(400)
+            throw new Error('Email already exist')
+        }
+
+        /* We search if the alias already exists */
+        const clientAlias = await ClientModel.findOne({alias})
+        const coachAlias = await CoachModel.findOne({alias})
+        if(clientAlias || coachAlias){
+            res.status(400)
+            throw new Error('Alias already exist')
+        }
+
+        /* Hashing password */
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
+
+        /* Creating the user */
+        const user = await ClientModel.create({alias, email, password: hashedPassword });
+        console.log("b")
         return user;
     }
     catch (e) {
@@ -29,10 +40,30 @@ async function signUpClient(body) {
 
 async function signUpCoach(body) {
     try {
-        const alias = body.alias
-        const email = body.email
-        const password = body.password
-        const user = await CoachModel.create({alias, email, password });
+        const {alias , email, password}  = body
+
+        /* We search if the email already exists */
+        const clientEmail = await ClientModel.findOne({email})
+        const coachEmail = await CoachModel.findOne({email})
+        if(clientEmail || coachEmail){
+            res.status(400)
+            throw new Error('Email already exist')
+        }
+
+        /* We search if the alias already exists */
+        const clientAlias = await ClientModel.findOne({alias})
+        const coachAlias = await CoachModel.findOne({alias})
+        if(clientAlias || coachAlias){
+            res.status(400)
+            throw new Error('Alias already exist')
+        }
+
+        /* Hashing password */
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
+
+        /* Creating the user */
+        const user = await CoachModel.create({alias, email, password: hashedPassword });
         return user;
     }
     catch (e) {
@@ -40,25 +71,69 @@ async function signUpCoach(body) {
     }
 }
 
-module.exports.signIn = async (req, res) => {
-    const { email, password } = req.body
-    try {
-        const user = await UserModel.login(email, password);
-        const token = createToken(user._id);
-        res.cookie('jwt', token, { httpOnly: true, maxAge});
-        res.status(200).json({ user: user._id})
-    } catch (err){
-        res.status(200).json({ errors });
+async function loginClient(body) {
+    const { alias, email, password } = body
+
+    // Check for user email
+    const clientMail = await ClientModel.findOne({ email })
+    const clientAlias = await ClientModel.findOne({ alias })
+    if (clientMail  && (await bcrypt.compare(password, clientMail.password))) {
+        return ({
+            _id: clientMail.id,
+            alias: clientMail.alias,
+            email: clientMail.email,
+            token: tokenGeneration(clientMail._id),
+        })
+    } else if(clientAlias  && (await bcrypt.compare(password, clientAlias.password))){
+        return clientAlias.json({
+            _id: clientAlias.id,
+            alias: clientAlias.alias,
+            email: clientAlias.email,
+            token: tokenGeneration(clientAlias._id),
+        })
+    } else {
+        res.status(400)
+        throw new Error('Invalid credentials')
+    }
+}
+
+async function loginCoach(body) {
+    const { alias, email, password } = body
+
+    // Check for user email
+    const coachMail = await CoachModel.findOne({ email })
+    const coachAlias = await CoachModel.findOne({ alias })
+    if (coachMail  && (await bcrypt.compare(password, coachMail.password))) {
+        return ({
+            _id: coachMail.id,
+            alias: coachMail.alias,
+            email: coachMail.email,
+            token: tokenGeneration(coachMail._id),
+        })
+    } else if(coachAlias  && (await bcrypt.compare(password, coachAlias.password))){
+        return coachAlias.json({
+            _id: coachAlias.id,
+            alias: coachAlias.alias,
+            email: coachAlias.email,
+            token: tokenGeneration(coachAlias._id),
+        })
+    } else {
+        res.status(400)
+        throw new Error('Invalid credentials')
     }
 }
 
 
-module.exports.logout = (req, res) => {
-    res.cookie('jwt', '', { maxAge: 1 });
-    res.redirect('/');
+/* Generate JWT */
+const tokenGeneration = (id) => {
+    return jwt.sign({ id }, process.env.SECRET_TOKEN, {
+        expiresIn: '1d',
+    })
 }
 
 module.exports = {
     signUpClient,
     signUpCoach,
+    loginClient,
+    loginCoach
 };

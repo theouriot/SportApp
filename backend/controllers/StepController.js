@@ -1,10 +1,10 @@
-const StepModel = require("../models/Step");
+const ProgramModel = require("../models/Program");
 
 
 
-async function createStep(body) {
+
+async function createStep(id,body) {
     try {
-        const programRef = body.programRef;
         const name = body.name;
         const stepNumber = body.stepNumber;
         const image = body.image;
@@ -13,7 +13,22 @@ async function createStep(body) {
         const description = body.description;
         const recommandedTime = body.recommandedTime;
 
-        const step = await StepModel.create({programRef,name,stepNumber,image,sets,reps,description,recommandedTime});
+        const step = await ProgramModel.findByIdAndUpdate(
+            {_id: id},
+            {
+                $push: {
+                    steps: {
+                        name: name,
+                        stepNumber: stepNumber,
+                        image: image,
+                        sets: sets,
+                        reps: reps,
+                        description: description,
+                        recommandedTime: recommandedTime
+                    }
+                }
+            },{new: true }
+        );
         return step;
     }
     catch (e) {
@@ -23,8 +38,17 @@ async function createStep(body) {
 
 async function getAllSteps() {
     try {
-        const steps = await StepModel.find();
-        return steps;
+        const steps = await ProgramModel.find({steps: 1, _id:0});
+        return steps[0].steps;
+    } catch (e) {
+        throw e;
+    }
+};
+
+async function getStepsByProgram(id) {
+    try{
+        const steps = await ProgramModel.find({_id: id},{steps: 1, _id: 0});
+        return steps[0].steps;
     } catch (e) {
         throw e;
     }
@@ -32,7 +56,7 @@ async function getAllSteps() {
 
 async function getStepById(id) {
     try{
-        const step = await StepModel.findOne({_id: id});
+        const step = await ProgramModel.findOne({_id: id});
         return step;
     } catch (e) {
         throw e;
@@ -41,7 +65,7 @@ async function getStepById(id) {
 
 async function updateStep(id, body) {
     try {
-        const res = await StepModel.updateOne({_id: id},
+        const res = await ProgramModel.updateOne({_id: id},
             {
                 /* I prefer not to give the right to modify the programRef for more security */
                 $set:{
@@ -62,7 +86,7 @@ async function updateStep(id, body) {
 
 async function deleteStep(id) {
     try {
-        const res = await StepModel.deleteOne({ _id: id }).exec();
+        const res = await ProgramModel.deleteOne({ _id: id }).exec();
         return res;
     } catch (e) {
         throw e;
@@ -72,7 +96,8 @@ async function deleteStep(id) {
 module.exports = {
     createStep,
     getAllSteps,
-    getStepById,
-    updateStep,
-    deleteStep,
+    getStepsByProgram,
+    getStepById, // TO DO
+    updateStep, // TO DO
+    deleteStep, // TO DO
 };

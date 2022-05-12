@@ -1,12 +1,12 @@
-import {Client} from "./Client";
-import {User} from "./User";
+import Client from "./Client";
+import User from "./User";
 
-export class Coach extends User {
+export default class Coach extends User {
     followers: [Client] | null;
     //programs: [Program]
 
-    constructor(id: number, login: string, name: string, password: string, followers: [Client] | null) {
-        super(id, login, name, password);
+    constructor(_id: number, alias: string, email: string, password: string, followers: [Client] | null) {
+        super(_id, alias, email, password);
         this.followers = followers;
     }
 }

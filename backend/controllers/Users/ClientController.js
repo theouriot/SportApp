@@ -9,9 +9,9 @@ async function getAllClients() {
     }
 };
 
-async function getClientByAlias(alias) {
+async function getClientById(id) {
     try{
-        const clients = await ClientModel.find({alias});
+        const clients = await ClientModel.find({_id: id});
         return clients;
     } catch (e) {
         throw e;
@@ -45,7 +45,7 @@ async function deleteClient(id) {
 
 module.exports = {
     getAllClients,
-    getClientByAlias,
+    getClientById,
     updateClient,
     deleteClient,
 };

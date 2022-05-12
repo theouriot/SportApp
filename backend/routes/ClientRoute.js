@@ -3,6 +3,7 @@ const clientController = require("../controllers/Users/ClientController");
 
 router.get("/all", async function (req, res, next) {
     try {
+        console.log("a")
         const client = await clientController.getAllClients();
         res.status(200).json(client)
     } catch (e) {
@@ -12,8 +13,8 @@ router.get("/all", async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
     try {
-        const alias = req.query.alias;
-        const client = await clientController.getClientByAlias(alias);
+        const id = req.query.id;
+        const client = await clientController.getClientById(id);
         if (!client) {
             return res.status(204).json({message: "No client with this id"});
         }

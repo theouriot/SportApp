@@ -1,4 +1,4 @@
-import {Coach} from "./Coach";
+import Coach from "./Coach";
 
 export default class Article {
     _id: number;

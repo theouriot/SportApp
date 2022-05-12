@@ -130,14 +130,10 @@ export default function ClientHomePage() {
                 </ImageButton>
             ))}
         </Box>
-            <Card >
-                <h2>Last Activities</h2>
-                <ProgramBar></ProgramBar>
-            </Card>
-            <Card>
-                <h2>Articles</h2>
-                <ArticleBar></ArticleBar>
-            </Card>
+            <Typography variant="h5">Last Activities</Typography>
+            <ProgramBar></ProgramBar>
+            <Typography variant="h5">Articles</Typography>
+            <ArticleBar></ArticleBar>
         </>
     );
 }

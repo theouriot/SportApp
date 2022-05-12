@@ -9,9 +9,9 @@ async function createArticle(body) {
         /* At the beginning there is no view and like */
         const likeCount = 0;
         const viewCount = 0;
-        const image = body.image
-
-        const article = await ArticleModel.create({name,author,description,content,likeCount,viewCount,image});
+        const image = body.image;
+        const comments = [];
+        const article = await ArticleModel.create({name,author,description,content,likeCount,viewCount,image,comments});
         return article;
     }
     catch (e) {

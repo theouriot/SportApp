@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import {useEffect, useState} from "react";
 
 import Card from '@mui/material/Card';
-import {Avatar, CardActionArea, CardHeader, CardMedia, Grid} from "@mui/material";
+import {Avatar, CardHeader, CardMedia, Grid} from "@mui/material";
 import { Link } from "react-router-dom";
 import Article from "../../types/Article";
 import ArticleService from "../../services/ArticleService";
@@ -36,7 +36,7 @@ const ArticleBar: React.FC = () => {
                 articles.map((article,index) => (
                     <Fragment key={index}>
                         <Grid item xs={4}>
-                            <Link to={"/home/article/"+ article._id} key={index} style={{textDecoration:"none" }}>
+                            <Link to={"/article/"+ article._id} key={index} style={{textDecoration:"none" }}>
                                 <Card sx={{ width: 400,borderRadius: "20px" }}>
                                     <CardHeader
                                         avatar={

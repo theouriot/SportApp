@@ -1,9 +1,21 @@
-const CommentModel = require("../models/Comment");
+const ArticleModel = require("../models/Article");
 
-async function createComment(body) {
+async function createComment(id,body) {
     try {
-        const name = body.name;
-        const comment = await CommentModel.create({name});
+        const author = body.author;
+        const content = body.content;
+        const comment = await ArticleModel.findByIdAndUpdate(
+            {_id: id},
+            {
+                $push: {
+                    comments: {
+                        author: author,
+                        content: content,
+                        timestamp: new Date().getTime(),
+                    }
+                }
+            },{new: true }
+            );
         return comment;
     }
     catch (e) {
@@ -13,8 +25,8 @@ async function createComment(body) {
 
 async function getAllComments() {
     try {
-        const comments = await CommentModel.find();
-        return comments;
+        const comments = await ArticleModel.find( { },{comments: 1, _id: 0});
+        return comments[0].comments;
     } catch (e) {
         throw e;
     }
@@ -22,8 +34,17 @@ async function getAllComments() {
 
 async function getCommentById(id) {
     try{
-        const comment = await CommentModel.findOne({_id: id});
+        const comment = await ArticleModel.findOne({}, {comments: 1, _id: id});
         return comment;
+    } catch (e) {
+        throw e;
+    }
+};
+
+async function getCommentsByArticle(id) {
+    try{
+        const comments = await ArticleModel.find({_id: id},{comments: 1, _id: 0});
+        return comments[0].comments;
     } catch (e) {
         throw e;
     }
@@ -31,7 +52,7 @@ async function getCommentById(id) {
 
 async function updateComment(id, body) {
     try {
-        const res = await CommentModel.updateOne({_id: id},
+        const res = await ArticleModel.updateOne({_id: id},
             {
                 /* I prefer not to give the right to modify the programRef for more security */
                 $set:{
@@ -46,7 +67,7 @@ async function updateComment(id, body) {
 
 async function deleteComment(id) {
     try {
-        const res = await CommentModel.deleteOne({ _id: id }).exec();
+        const res = await ArticleModel.deleteOne({ _id: id }).exec();
         return res;
     } catch (e) {
         throw e;
@@ -57,6 +78,7 @@ module.exports = {
     createComment,
     getAllComments,
     getCommentById,
-    updateComment,
-    deleteComment,
+    updateComment, //TO DO
+    deleteComment, //TO DO
+    getCommentsByArticle,
 };

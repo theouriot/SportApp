@@ -12,18 +12,58 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HubTemplate from "./HubTemplate";
 import {Link} from "react-router-dom";
+import AuthService from "../../services/AuthService";
+import User from "../../types/User";
 
 const theme = createTheme();
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function SignInSide() {
+
+    const [checked, setChecked] = React.useState(false);
+    const [valid, setValid] = React.useState(false);
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const signupModel = new User(data.get('id'),data.get('alias'),data.get('email'),data.get('password'));
+        if(checked){
+            signUpClient(signupModel).then(r => "ok");
+        }
+        else{
+            signUpCoach(signupModel).then(r => "ok");
+        }
+    };
+
+    const signUpClient = async (data: any) => {
+        console.log('dans le signup client')
+        await AuthService.signUpClient(data)
+            .then((response: any) => {
+                console.log(response);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setChecked(event.target.checked);
+    };
+
+    const signUpCoach = async (data: any) => {
+        console.log('dans le signup coach')
+        await AuthService.signUpCoach(data)
+            .then((response: any) => {
+                console.log(response);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    };
+
+    const handleValidation = (e: any) => {
+        const reg = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+        setValid(reg.test(e.target.value));
     };
 
     return (
@@ -32,7 +72,7 @@ export default function SignInSide() {
                 <CssBaseline />
                 <HubTemplate />
                 <Grid item xs={12} sm={8} md={5}  component={Paper} elevation={6} square style={{
-                    backgroundColor: "#093545",
+                    backgroundColor: "#080808",
                     color: "white",
 
                 }}>
@@ -61,6 +101,8 @@ export default function SignInSide() {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
+                                onChange={(e) => handleValidation(e)}
+                                error={!valid}
                                 style={{
                                     backgroundColor: "#224957",
                                     borderRadius: 10,
@@ -120,7 +162,7 @@ export default function SignInSide() {
                                     style: { color: '#fff' },
                                 }}
                             />
-                            <Checkbox {...label} />
+                            <Checkbox {...label} onChange={handleChange} />
                             Are you coach ?
                             <Button
                                 type="submit"
@@ -135,19 +177,6 @@ export default function SignInSide() {
                             >
                                 Register
                             </Button>
-                            <Link to='/' key={1} style={{textDecoration:"none" }} >
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-                                    style={{
-                                        borderRadius: 10,
-                                        backgroundColor: "#20DF7F",
-                                        fontSize: "18px"
-                                    }}
-                                >
-                                    Return to login
-                                </Button>
-                            </Link>
                         </Box>
                     </Box>
                 </Grid>

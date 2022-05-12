@@ -12,26 +12,38 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HubTemplate from "./HubTemplate";
 
 import { Link } from "react-router-dom";
+import User from "../../types/User";
+import AuthService from "../../services/AuthService";
 
 const theme = createTheme();
 
 export default function SignInSide() {
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const signupModel = new User(data.get('id'),data.get('alias'),data.get('email'),data.get('password'));
+        login(signupModel).then(() => "ok");
     };
 
+    const login = async (data: any) => {
+        await AuthService.login(data)
+            .then((response: any) => {
+                // TO DO : Made the redirection
+                console.log(response);
+            })
+            .catch((e: Error) => {
+                // TO DO : Made the error message
+                console.log("erreur");
+            });
+    };
     return (
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }} >
                 <CssBaseline />
                 <HubTemplate />
                 <Grid item xs={12} sm={8} md={5}  component={Paper} elevation={6} square style={{
-                    backgroundColor: "#093545",
+                    backgroundColor: "#080808",
                     color: "white",
 
                 }}>
@@ -102,35 +114,6 @@ export default function SignInSide() {
                             >
                                 Login
                             </Button>
-                            <Link to='/register' key={1} style={{textDecoration:"none" }}>
-                                <Button
-                                        fullWidth
-                                        variant="contained"
-
-                                        style={{
-                                            borderRadius: 10,
-                                            backgroundColor: "#20DF7F",
-                                            fontSize: "18px"
-                                        }}
-                                >
-                                    Register me
-                                </Button>
-                            </Link>
-
-                            <Link to='/home' key={1} style={{textDecoration:"none" }}>
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-
-                                    style={{
-                                        borderRadius: 10,
-                                        backgroundColor: "#20DF7F",
-                                        fontSize: "18px"
-                                    }}
-                                >
-                                    Home
-                                </Button>
-                            </Link>
                         </Box>
                     </Box>
                 </Grid>

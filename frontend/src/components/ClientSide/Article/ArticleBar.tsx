@@ -32,7 +32,7 @@ const ArticleBar: React.FC = () => {
             articles.map((article,index) => (
                 <Fragment key={index}>
                     <Grid item xs={4}>
-                        <Link to={"/home/article/"+ article._id} key={index} style={{textDecoration:"none" }}>
+                        <Link to={"/article/"+ article._id} key={index} style={{textDecoration:"none" }}>
                             <Card sx={{ width: 400,borderRadius: "20px" }}>
                                 <CardHeader
                                     avatar={
