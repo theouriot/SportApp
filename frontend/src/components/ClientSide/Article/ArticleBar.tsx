@@ -5,9 +5,8 @@ import ArticleService from "../../../services/ArticleService";
 import Article from "../../../types/Article"
 
 import Card from '@mui/material/Card';
-import {Avatar, CardActionArea, CardHeader, CardMedia, Grid} from "@mui/material";
+import {Avatar, CardHeader, CardMedia, Grid} from "@mui/material";
 import { Link } from "react-router-dom";
-import ClientNavbarLayout from "../ClientNavbarLayout";
 
 
 const ArticleBar: React.FC = () => {
@@ -46,7 +45,7 @@ const ArticleBar: React.FC = () => {
                                 <CardMedia
                                     component="img"
                                     height="194"
-                                    image={require(''+article.image)} // require image
+                                    image={require('../../../images/articles/article2.jpg')} // require image
                                     alt="descriptive image"
                                 />
                             </Card>

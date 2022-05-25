@@ -1,9 +1,15 @@
 import * as React from 'react';
+import CoachNavbarLayout from "./CoachNavbarLayout";
+import ArticlesByCoach from "./Article/ArticlesByCoach";
 
 export default function ClientHomePage() {
     return (
         <>
-            <p>Coach home pas</p>
+            <CoachNavbarLayout></CoachNavbarLayout>
+            <br/>
+            <br/>
+            <br/>
+            <ArticlesByCoach></ArticlesByCoach>
         </>
     );
 }

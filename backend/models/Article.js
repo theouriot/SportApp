@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const eventSchema = mongoose.Schema({
     name: { type: String, required: true},
-    // temp author
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'Coach',required: true},
     description: { type: String},
     content: { type: String},

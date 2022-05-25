@@ -28,6 +28,15 @@ async function getAllArticles() {
     }
 };
 
+async function getAllArticlesByCoach(id) {
+    try {
+        const articles = await ArticleModel.find({author: id});
+        return articles;
+    } catch (e) {
+        throw e;
+    }
+};
+
 async function getArticleById(id) {
     try{
         const article = await ArticleModel.findOne({_id: id});
@@ -92,6 +101,7 @@ async function deleteArticle(id) {
 module.exports = {
     createArticle,
     getAllArticles,
+    getAllArticlesByCoach,
     getArticleById,
     updateArticle,
     addView,

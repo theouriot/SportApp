@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/coach", coachRoute)
-app.use("/client", clientAuthMiddelware, clientRoute)
+app.use("/client", clientRoute)
 app.use("/auth", authentificationRoute)
 app.use("/article", articleRoute)
 app.use("/program", programRoute)

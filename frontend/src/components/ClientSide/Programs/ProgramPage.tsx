@@ -7,7 +7,7 @@ import Step from "../../../types/Step";
 
 import { useParams} from "react-router-dom";
 import ClientNavbarLayout from "../ClientNavbarLayout";
-import {Avatar, Box, Button, Chip, Stack} from "@mui/material";
+import {Chip, Stack} from "@mui/material";
 
 import Typography from "@mui/material/Typography";
 import TableContainer from "@mui/material/TableContainer";

@@ -11,11 +11,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HubTemplate from "./HubTemplate";
-import {Link} from "react-router-dom";
 import AuthService from "../../services/AuthService";
 import User from "../../types/User";
-import {Alert, InputAdornment, Snackbar} from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
+import {Alert, Snackbar} from "@mui/material";
 
 const theme = createTheme();
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -80,8 +78,7 @@ export default function SignInSide() {
     };
 
     const checkPasswordEquality = (e: any) => {
-        console.log(password==e.target.value)
-        if(password != e.target.value) {
+        if(password !== e.target.value) {
             setValidPassword(false);
         }
         else{

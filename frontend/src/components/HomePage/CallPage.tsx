@@ -3,7 +3,6 @@ import Register from "./Register"
 import Login from "./Login"
 
 import {Fragment} from "react";
-import {Link} from "react-router-dom";
 import Button from "@mui/material/Button";
 
 export default function CallPage() {
@@ -20,7 +19,7 @@ export default function CallPage() {
 
     return (
         <Fragment>
-            {loginPage == true
+            {loginPage === true
             ?
                 <Fragment>
                     <Login></Login>

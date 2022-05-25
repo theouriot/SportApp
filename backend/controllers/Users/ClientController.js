@@ -1,4 +1,5 @@
 const ClientModel = require("../../models/Client");
+const bcrypt = require("bcryptjs");
 
 async function getAllClients() {
     try {
@@ -20,12 +21,22 @@ async function getClientById(id) {
 
 async function updateClient(id,body) {
     try {
+
+        /* Hashing password */
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(body.password, salt)
+
         const res = await ClientModel.updateOne({_id: id},
             {
                 $set:{
                     "alias": body.alias,
                     "email": body.email,
-                    "password": body.password
+                    "password": hashedPassword,
+                    "age": body.age,
+                    "weight": body.weight,
+                    "height": body.height,
+                    "profilePicture": body.profilePicture,
+                    "follows": body.follows
                 },
             });
         return res

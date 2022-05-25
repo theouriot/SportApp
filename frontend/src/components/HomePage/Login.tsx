@@ -14,14 +14,18 @@ import LockIcon from '@mui/icons-material/Lock';
 
 import { useNavigate } from 'react-router-dom';
 import User from "../../types/User";
+import Client from "../../types/Client";
 import AuthService from "../../services/AuthService";
 import {AccountCircle} from "@mui/icons-material";
 import {InputAdornment} from "@mui/material";
+import {useUser} from "../UserContext";
+import Coach from "../../types/Coach";
 
 const theme = createTheme();
 
 export default function SignInSide() {
     let navigate = useNavigate();
+    const { user, setUser } = useUser();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,11 +38,16 @@ export default function SignInSide() {
         await AuthService.login(data)
             .then((response: any) => {
                 // TO DO : Made the redirection
-                console.log(response.role);
                 if(response.role == "client"){
+                    /* We create a client and we modify the contex */
+                    const client = new Client(response._id,response.alias,response.email,response.password,null,null,null,null,null)
+                    setUser(client);
                     navigate('/home/');
                 }
                 else{
+                    /* We create a coach and we modify the contex */
+                    const client = new Coach(response._id,response.alias,response.email,response.password,null)
+                    setUser(client);
                     navigate('/mySpace/');
                 }
 

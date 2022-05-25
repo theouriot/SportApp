@@ -14,11 +14,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link } from "react-router-dom";
 import LogoImg from '../../images/logo.jpg';
 
-const pages = ['Home', 'Programs', 'Coaches', 'Articles'];
-const settings = ['profile', 'Logout'];
+const pages = ['MySpace', 'NewProgram', 'NewArticle'];
+const settings = ['Profile', 'Account', 'Logout'];
 
 
-const ClientNavbarLayout = () => {
+const CoachNavbarLayout = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -128,11 +128,9 @@ const ClientNavbarLayout = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting,index) => (
+                            {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Link to={"/Profile"} key={index} style={{textDecoration:"none" }}>
-                                      <Typography textAlign="center">{setting}</Typography>
-                                    </Link>
+                                    <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -142,4 +140,4 @@ const ClientNavbarLayout = () => {
         </AppBar>
     );
 };
-export default ClientNavbarLayout;
+export default CoachNavbarLayout;

@@ -5,8 +5,9 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import ArticleBar from "../Article/ArticleBar";
 import ClientNavbarLayout from "../ClientNavbarLayout";
-import {Card} from "@mui/material";
 import ProgramBar from "../Programs/ProgramBar";
+
+import {useUser} from "../../UserContext";
 
 const images = [
     {
@@ -91,6 +92,8 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 export default function ClientHomePage() {
+    const { user, setUser } = useUser();
+
     return (
         <>
             <header>
@@ -100,6 +103,7 @@ export default function ClientHomePage() {
             <br/>
             <br/>
             <br/>
+
         <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
             {images.map((image) => (
                 <ImageButton
@@ -130,6 +134,12 @@ export default function ClientHomePage() {
                 </ImageButton>
             ))}
         </Box>
+            {user?._id}
+            {user?.alias}
+            {user?.email}
+            <button onClick={() => setUser("léo")}>
+                        switch to dark theme
+            </button>
             <Typography variant="h5">Last Activities</Typography>
             <ProgramBar></ProgramBar>
             <Typography variant="h5">Articles</Typography>

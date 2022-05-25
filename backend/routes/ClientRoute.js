@@ -44,7 +44,8 @@ router.put("/", async function (req, res, next) {
         if (!client) {
             return res.status(204).json({message: "No client with this id"});
         }
-        res.status(200).json({ message: "Update done"})
+        const clientToReturn = await clientController.getClientById(id);
+        res.status(200).json(clientToReturn)
     } catch (e) {
         res.status(500).json({ message: "Can't load data" });
     }

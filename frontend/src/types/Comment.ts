@@ -1,10 +1,10 @@
 export default class Comment{
     _id: number | null;
-    author: string;
+    author: any;
     content: string;
     timestamp: number;
 
-    constructor(_id: number | null ,author: string, content: string) {
+    constructor(_id: number | null ,author: any, content: string) {
         this._id = _id;
         this.author = author;
         this.content = content;

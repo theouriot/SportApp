@@ -80,7 +80,7 @@ async function loginClient(body) {
 
     if (clientMail  && (await bcrypt.compare(password, clientMail.password))) {
         return ({
-            _id: clientMail.id,
+            _id: clientMail._id,
             alias: clientMail.alias,
             email: clientMail.email,
             token: tokenGeneration(clientMail._id),
@@ -88,7 +88,7 @@ async function loginClient(body) {
         })
     } else if(clientAlias  && (await bcrypt.compare(password, clientAlias.password))){
         return ({
-            _id: clientAlias.id,
+            _id: clientAlias._id,
             alias: clientAlias.alias,
             email: clientAlias.email,
             token: tokenGeneration(clientAlias._id),
@@ -108,7 +108,7 @@ async function loginCoach(body) {
     const coachAlias = await CoachModel.findOne({ alias })
     if (coachMail  && (await bcrypt.compare(password, coachMail.password))) {
         return ({
-            _id: coachMail.id,
+            _id: coachMail._id,
             alias: coachMail.alias,
             email: coachMail.email,
             token: tokenGeneration(coachMail._id),
@@ -116,7 +116,7 @@ async function loginCoach(body) {
         })
     } else if(coachAlias  && (await bcrypt.compare(password, coachAlias.password))){
         return ({
-            _id: coachAlias.id,
+            _id: coachAlias._id,
             alias: coachAlias.alias,
             email: coachAlias.email,
             token: tokenGeneration(coachAlias._id),

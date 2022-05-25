@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import {useEffect, useState} from "react";
 
 import ArticleService from "../../../services/ArticleService";
@@ -7,20 +7,23 @@ import Article from "../../../types/Article"
 import CommentService from "../../../services/CommentService";
 import Comment from "../../../types/Comment";
 
-import CommentPage from "./Comment";
+import {useParams} from "react-router-dom";
+import {useUser} from "../../UserContext";
 
-import {Link, useParams} from "react-router-dom";
 import ClientNavbarLayout from "../ClientNavbarLayout";
-import {Avatar, Box, Button, CardHeader, CardMedia, Grid, TextField} from "@mui/material";
+import { Box, Button, TextField} from "@mui/material";
 import ListComment from "./ListComment";
 import Typography from "@mui/material/Typography";
 
 const ArticlePage: React.FC = () => {
+
     const defaultArticle = new Article(0,"",0,"","","");
     const [article, setArticle] = useState<Article>(defaultArticle);
     const props = useParams();
     const [value, setValue] = useState("");
     const [update,setUpdate] = useState<number>(0);
+
+    const { user } = useUser();
 
     useEffect(() => {
         const getArticleByID = async (id: any) => {
@@ -50,8 +53,15 @@ const ArticlePage: React.FC = () => {
 
 
     const callCreate = async () => {
-        let comment = new Comment(null,"627bef6ceb76f4306281802b",value)
-        if (value != ""){
+        let comment;
+        if(user?._id !== null){
+            comment = new Comment(null,user?._id,value)
+        }
+        else{
+            comment = new Comment(null,"627bef6ceb76f4306281802b",value)
+        }
+        if (value !== ""){
+            console.log(comment);
             await createComment(article?._id, comment);
             setUpdate(update+1);
         }
