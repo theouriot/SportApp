@@ -9,19 +9,35 @@ import {Avatar, CardHeader, CardMedia, Grid} from "@mui/material";
 import { Link } from "react-router-dom";
 import {useUser} from "../../UserContext";
 
-
-const ArticleBar: React.FC = () => {
+interface Props{
+    coachId: string | undefined;
+}
+const ArticleBar: React.FC<Props> = (props) => {
     const [articles, setArticles] = useState<Array<Article>>([]);
     const { user } = useUser();
     useEffect(() => {
         const getAllArticles = async () => {
-            await ArticleService.getAllArticlesByCoach(user?._id)
-                .then((response: any) => {
-                    setArticles(response);
-                })
-                .catch((e: Error) => {
-                    console.log(e);
-                });
+            if(props.coachId !== undefined){
+                console.log(props.coachId)
+                await ArticleService.getAllArticlesByCoach(props.coachId)
+                    .then((response: any) => {
+                        console.log(response)
+                        setArticles(response);
+                        console.log(articles)
+                    })
+                    .catch((e: Error) => {
+                        console.log(e);
+                    });
+            }
+            else{
+                await ArticleService.getAllArticlesByCoach(user?._id)
+                    .then((response: any) => {
+                        setArticles(response);
+                    })
+                    .catch((e: Error) => {
+                        console.log(e);
+                    });
+            }
         };
         getAllArticles();
     }, []);

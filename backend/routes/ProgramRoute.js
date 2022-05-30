@@ -31,6 +31,33 @@ router.get("/", async function (req, res, next) {
     }
 });
 
+router.get("/byCoach/", async function (req, res, next) {
+    try {
+        const id = req.query.id;
+        const programs = await programController.getAllProgramsByCoach(id);
+        if (!programs) {
+            return res.status(204).json({message: "No program with this id"});
+        }
+        res.status(200).json(programs)
+    } catch (e) {
+        res.status(500).json({ message: "Can't load data" });
+    }
+});
+
+router.get("/hasAlreadyLiked/", async function (req, res, next) {
+    try {
+        const id = req.query.id;
+        const idClient = req.query.idClient;
+        const programs = await programController.hasAlreadyLiked(id,idClient);
+        if (!programs) {
+            return res.status(204).json({message: "No program with this id"});
+        }
+        res.status(200).json(programs)
+    } catch (e) {
+        res.status(500).json({ message: "Can't load data" });
+    }
+});
+
 router.delete("/", async function (req, res, next) {
     try {
         const id = req.query.id;
@@ -73,7 +100,22 @@ router.put("/addView", async function (req, res, next) {
 router.put("/addLike", async function (req, res, next) {
     try {
         const id = req.query.id;
-        const program = await programController.addLike(id);
+        const idClient = req.query.idClient;
+        const program = await programController.addLike(id,idClient);
+        if (!program) {
+            return res.status(204).json({message: "No program with this id"});
+        }
+        res.status(200).json({ message: "Update done"})
+    } catch (e) {
+        res.status(500).json({ message: "Can't load data" });
+    }
+});
+
+router.put("/addDislike", async function (req, res, next) {
+    try {
+        const id = req.query.id;
+        const idClient = req.query.idClient;
+        const program = await programController.addDislike(id,idClient);
         if (!program) {
             return res.status(204).json({message: "No program with this id"});
         }

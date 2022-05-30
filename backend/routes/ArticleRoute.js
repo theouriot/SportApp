@@ -22,6 +22,7 @@ router.get("/all", async function (req, res, next) {
 router.get("/byCoach", async function (req, res, next) {
     try {
         const id = req.query.id;
+
         const article = await articleController.getAllArticlesByCoach(id);
         if (!article) {
             return res.status(204).json({message: "No article with this id"});

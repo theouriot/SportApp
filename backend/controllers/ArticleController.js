@@ -30,7 +30,9 @@ async function getAllArticles() {
 
 async function getAllArticlesByCoach(id) {
     try {
+        console.log(id)
         const articles = await ArticleModel.find({author: id});
+        console.log(articles)
         return articles;
     } catch (e) {
         throw e;

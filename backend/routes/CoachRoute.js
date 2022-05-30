@@ -12,8 +12,8 @@ router.get("/all", async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
     try {
-        const alias = req.query.alias;
-        const coach = await coachController.getCoachByAlias(alias);
+        const id = req.query.id;
+        const coach = await coachController.getCoachById(id);
         if (!coach) {
             return res.status(204).json({message: "No coach with this id"});
         }

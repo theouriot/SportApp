@@ -27,8 +27,7 @@ const ArticleBar: React.FC = () => {
     return (
         <>
             <Grid container spacing={1}>
-            {articles &&
-            articles.map((article,index) => (
+            {articles.slice(0,6).map((article,index) => (
                 <Fragment key={index}>
                     <Grid item xs={4}>
                         <Link to={"/article/"+ article._id} key={index} style={{textDecoration:"none" }}>

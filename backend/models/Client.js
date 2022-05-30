@@ -8,7 +8,12 @@ const eventSchema = mongoose.Schema({
     weight: { type: Number },
     height: { type: Number },
     profilePicture: { type: String },
-    follows: [{ type: mongoose.Schema.Types.ObjectId, ref: 'follows'}],
+    follows: { type: [
+            {
+                idProgram: String,
+                idArticle: String,
+            }
+        ]},
 });
 
 module.exports = mongoose.model('Client', eventSchema);

@@ -46,8 +46,8 @@ export default function SignInSide() {
                 }
                 else{
                     /* We create a coach and we modify the contex */
-                    const client = new Coach(response._id,response.alias,response.email,response.password,null)
-                    setUser(client);
+                    const coach = new Coach(response._id,response.alias,response.email,response.password,null)
+                    setUser(coach);
                     navigate('/mySpace/');
                 }
 

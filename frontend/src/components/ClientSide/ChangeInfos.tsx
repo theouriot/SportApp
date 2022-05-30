@@ -23,7 +23,6 @@ const ChangeInfos = () => {
     const [validPassword, setValidPassword] = React.useState(true);
 
     const checkPasswordEquality = (e: any) => {
-        console.log(password===e.target.value)
         if(password !== e.target.value) {
             setValidPassword(false);
         }

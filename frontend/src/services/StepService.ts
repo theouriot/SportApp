@@ -1,9 +1,9 @@
 import http from "../http-common";
-import ArticleData from "../types/Article";
+import StepData from "../types/Step";
 
 
-const create = async (data: ArticleData) => {
-    const tmp =  await http.post<ArticleData>("/article", data);
+const create = async (id:any, data: StepData) => {
+    const tmp =  await http.post<StepData>(`/article?id=${id}`, data);
     return  tmp.data;
 };
 

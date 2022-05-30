@@ -1,35 +1,54 @@
 import React, {Fragment} from "react";
 import {useEffect, useState} from "react";
 
-import ProgramService from "../../../services/ProgramService";
-import Program from "../../../types/Program";
+import Program from "../../../types/Program"
 
 import Card from '@mui/material/Card';
-import {Avatar, Box, CardContent, CardHeader, CardMedia, Chip, Grid, Stack} from "@mui/material";
+import {Avatar, CardContent, CardHeader, CardMedia, Chip, Grid, Stack} from "@mui/material";
 import { Link } from "react-router-dom";
+import {useUser} from "../../UserContext";
+import ProgramService from "../../../services/ProgramService";
 import CatChip from "../../Chip/CatChip";
 import LevelChip from "../../Chip/LevelChip";
 
+interface Props{
+    coachId: string | undefined;
+}
 
-const ProgramBar: React.FC = () => {
+const ProgramByCoach: React.FC<Props> = (props) => {
     const [programs, setPrograms] = useState<Array<Program>>([]);
-
+    const { user } = useUser();
     useEffect(() => {
-        const getAllArticles = async () => {
-            await ProgramService.getAllPrograms()
-                .then((response: any) => {
-                    setPrograms(response);
-                })
-                .catch((e: Error) => {
-                    console.log(e);
-                });
+        const getAllPrograms = async () => {
+            if(props.coachId !== undefined){
+                console.log(props.coachId)
+                await ProgramService.getAllProgramsByCoach(props.coachId)
+                    .then((response: any) => {
+                        console.log(response)
+                        setPrograms(response);
+                        console.log(programs)
+                    })
+                    .catch((e: Error) => {
+                        console.log(e);
+                    });
+            }
+            else{
+                await ProgramService.getAllProgramsByCoach(user?._id)
+                    .then((response: any) => {
+                        setPrograms(response);
+                    })
+                    .catch((e: Error) => {
+                        console.log(e);
+                    });
+            }
         };
-        getAllArticles().then(() => "ok");
+        getAllPrograms().then(r => "ok");
     }, []);
     return (
         <>
             <Grid container spacing={1}>
-                {programs.slice(0,6).map((program,index) => (
+                {programs &&
+                programs.map((program,index) => (
                     <Fragment key={index}>
                         <Grid item xs={4}>
                             <Link to={"/program/"+ program._id} key={index} style={{textDecoration:"none" }}>
@@ -72,5 +91,5 @@ const ProgramBar: React.FC = () => {
     );
 };
 
-export default ProgramBar;
+export default ProgramByCoach;
 

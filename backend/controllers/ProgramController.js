@@ -1,4 +1,6 @@
 const ProgramModel = require("../models/Program");
+const ClientModel = require("../models/Client");
+const ArticleModel = require("../models/Article");
 
 async function createProgram(body) {
     try {
@@ -16,7 +18,8 @@ async function createProgram(body) {
         const image = body.image;
         const timestamp = new Date().getTime();
         const program = await ProgramModel.create({name,creator,idCategory,idLevel,description,likeCount,viewCount,steps,comments,image,timestamp});
-        return program;
+        console.log(program._id)
+        return program._id;
     }
     catch (e) {
         throw e;
@@ -63,6 +66,14 @@ async function updateProgram(id, body) {
     }
 }
 
+async function getAllProgramsByCoach(id) {
+    try {
+        const programs = await ProgramModel.find({creator: id});
+        return programs;
+    } catch (e) {
+        throw e;
+    }
+};
 async function addView(id) {
     try {
         const res = await ProgramModel.updateOne({_id: id},
@@ -75,17 +86,84 @@ async function addView(id) {
     }
 }
 
-async function addLike(id) {
+async function addLike(id,idClient) {
     try {
-        const res = await ProgramModel.updateOne({_id: id},
-            {
-                $inc: { likeCount: 1 },
-            });
-        return res
+        const client = await ClientModel.find( {_id: idClient},{ "follows.idProgram": 1, _id: 0});
+        // We search if the client has already liked the program
+        var alreadyLike = false;
+        client[0].follows.forEach(element => {
+            if(element.idProgram === id){
+                alreadyLike = true;
+            }
+        }
+        )
+        // If no: we add the like to his list and to the program like list
+        if(!alreadyLike){
+            const res = await ProgramModel.updateOne({_id: id},
+                {
+                    $inc: { likeCount: 1 },
+                });
+            const clientRemove = await ClientModel.findByIdAndUpdate(
+                {_id: idClient},
+                {
+                    $push: {
+                        follows: {
+                            idProgram: id,
+                            idArticle: null
+                        }
+                    }
+                },{new: true }
+            );
+            return res;
+        }
+        // If yes : we do nothing
+        return null
     } catch (e) {
         throw e;
     }
 }
+
+async function addDislike(id,idClient) {
+    try {
+            const res = await ProgramModel.updateOne({_id: id},
+                {
+                    $inc: { likeCount: -1 },
+                });
+            const clientRemove = await ClientModel.findByIdAndUpdate(
+                {_id: idClient},
+                {
+                    $pull: {
+                        follows: {
+                            idProgram: id,
+                            idArticle: null
+                        }
+                    }
+                }
+            );
+
+            return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function hasAlreadyLiked(id,idClient) {
+    try{
+        const client = await ClientModel.find( {_id: idClient},{ "follows.idProgram": 1, _id: 0});
+        // We search if the client has already liked the program
+        var alreadyLike = false;
+        client[0].follows.forEach(element => {
+                if(element.idProgram === id){
+                    alreadyLike = true;
+                }
+            }
+        )
+        return alreadyLike;
+    } catch (e) {
+        throw e;
+    }
+};
+
 
 async function deleteProgram(id) {
     try {
@@ -100,8 +178,11 @@ module.exports = {
     createProgram,
     getAllPrograms,
     getProgramById,
+    getAllProgramsByCoach,
     updateProgram,
     addView,
     addLike,
+    addDislike,
     deleteProgram,
+    hasAlreadyLiked,
 };

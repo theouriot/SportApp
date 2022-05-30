@@ -8,22 +8,26 @@ import ClientNavbarLayout from "../ClientNavbarLayout";
 import ProgramBar from "../Programs/ProgramBar";
 
 import {useUser} from "../../UserContext";
+import {Link} from "react-router-dom";
 
 const images = [
     {
         url: require('../../../images/caloriesBurned.jpg'),
         title: "Today's Infos",
         width: '40%',
+        redirection: '/programs'
     },
     {
         url: require('../../../images/addActivity.jpg'),
         title: 'Add an activity',
         width: '30%',
+        redirection: '/programs'
     },
     {
         url: require('../../../images/activityImage.jpg'),
         title: 'Search for a program',
         width: '30%',
+        redirection: '/programs'
     },
 ];
 
@@ -92,7 +96,6 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 export default function ClientHomePage() {
-    const { user, setUser } = useUser();
 
     return (
         <>
@@ -105,7 +108,8 @@ export default function ClientHomePage() {
             <br/>
 
         <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
-            {images.map((image) => (
+            {images.map((image,index) => (
+
                 <ImageButton
                     focusRipple
                     key={image.title}
@@ -113,6 +117,7 @@ export default function ClientHomePage() {
                         width: image.width,
                     }}
                 >
+                    <Link to={image.redirection} key={index} style={{textDecoration:"none" }}>
                     <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
                     <ImageBackdrop className="MuiImageBackdrop-root" />
                     <Image>
@@ -131,15 +136,10 @@ export default function ClientHomePage() {
                             <ImageMarked className="MuiImageMarked-root" />
                         </Typography>
                     </Image>
+                    </Link>
                 </ImageButton>
             ))}
         </Box>
-            {user?._id}
-            {user?.alias}
-            {user?.email}
-            <button onClick={() => setUser("léo")}>
-                        switch to dark theme
-            </button>
             <Typography variant="h5">Last Activities</Typography>
             <ProgramBar></ProgramBar>
             <Typography variant="h5">Articles</Typography>

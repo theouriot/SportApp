@@ -62,7 +62,6 @@ export default function SignInSide() {
     };
 
     const signUpCoach = async (data: any) => {
-        console.log('dans le signup coach')
         await AuthService.signUpCoach(data)
             .then((response: any) => {
                 console.log(response);

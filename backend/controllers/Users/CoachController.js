@@ -10,9 +10,9 @@ async function getAllCoaches() {
     }
 };
 
-async function getCoachByAlias(alias) {
+async function getCoachById(id) {
     try{
-        const clients = await ClientModel.find({alias});
+        const clients = await ClientModel.find({_id: id});
         return clients;
     } catch (e) {
         throw e;
@@ -50,7 +50,7 @@ async function deleteCoach(id) {
 
 module.exports = {
     getAllCoaches,
-    getCoachByAlias,
+    getCoachById,
     updateCoach,
     deleteCoach,
 };

@@ -9,7 +9,7 @@ export default function ClientHomePage() {
             <br/>
             <br/>
             <br/>
-            <ArticlesByCoach></ArticlesByCoach>
+            <ArticlesByCoach coachId={undefined}></ArticlesByCoach>
         </>
     );
 }

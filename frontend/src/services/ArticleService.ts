@@ -22,7 +22,6 @@ const getAllArticlesByCoach = async (id: any) => {
     return tmp.data;
 };
 
-
 const remove = async (id: any) => {
     const tmp = await http.delete<any>(`/article/?id=${id}`);
     return tmp.data;

@@ -7,7 +7,7 @@ import Step from "../../../types/Step";
 
 import { useParams} from "react-router-dom";
 import ClientNavbarLayout from "../ClientNavbarLayout";
-import {Chip, Stack} from "@mui/material";
+import {Button, Chip, Stack} from "@mui/material";
 
 import Typography from "@mui/material/Typography";
 import TableContainer from "@mui/material/TableContainer";
@@ -18,6 +18,15 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import {styled} from "@mui/material/styles";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
+import CatChip from "../../Chip/CatChip";
+import LevelChip from "../../Chip/LevelChip";
+import CoachChip from "../../Chip/CreatorChip"
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import {useUser} from "../../UserContext";
+import Like from "../../../types/Like";
+import SendIcon from "@mui/icons-material/Send";
+import Comment from "../../../types/Comment";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -49,13 +58,16 @@ const ImageSrc = styled('span')({
     backgroundPosition: 'center 40%',
 });
 
-
 const ProgramPage: React.FC = () => {
     const defaultStep = new Step("",0,"",0,0,"",0)
-    const defaultProgram = new Program(0,"",0,0,"",[defaultStep],"")
+    const defaultProgram = new Program(0,"",0,0,0,"",[defaultStep],"")
     const [program, setProgram] = useState<Program>(defaultProgram);
     const props = useParams();
     var totalRecommandedTime = 0;
+
+    const { user } = useUser();
+    const [hasLiked, setHasLiked] = useState<number>(0);
+    const [change, setChange] = useState<number>(0);
 
     useEffect(() => {
         const getProgramByID = async (id: any) => {
@@ -71,26 +83,81 @@ const ProgramPage: React.FC = () => {
         const addView = async (id: any) => {
             await ProgramService.addView(id)
                 .then((response: any) => {
-                    console.log("view added")
                 })
                 .catch((e: Error) => {
                     console.log(e);
                 });
         };
 
+        const hasAlreadyLikedTheProgram = async (id: any,idClient: any) => {
+                await ProgramService.hasAlreadyLiked(id,idClient)
+                    .then((response: any) => {
+                        if(response.data){
+                            setLike()
+                        }
+                        return null;
+                    })
+                    .catch((e: Error) => {
+                        console.log(e);
+                    });
+        };
+
         getProgramByID(props.id).then( () => "ok");
         addView(props.id).then( () => "ok");
+        hasAlreadyLikedTheProgram(props.id,user?._id).then( () => "ok");
 
-    }, [props.id]);
+    }, [change]);
 
     const getTotalRecommandedTime = () => {
         program.steps?.forEach(step =>
             totalRecommandedTime+= step.recommandedTime
         )
-        console.log(totalRecommandedTime);
         return totalRecommandedTime
     }
 
+    const setLike = async () => {
+        setHasLiked(state => (state + 1));
+    }
+
+    const setDislike = async () => {
+        setHasLiked(0);
+    }
+
+    const addLike = async () => {
+        await ProgramService.addLike(program._id,user?._id)
+            .then((response: any) => {
+                console.log(response);
+                if(response){
+                    setLike();
+                }
+                console.log(hasLiked)
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    }
+
+    const callLike = () => {
+        addLike().then(r => setChange(state => (state + 1)));
+    }
+
+    const addDislike = async () => {
+        await ProgramService.addDislike(program._id,user?._id)
+            .then((response: any) => {
+                console.log(response);
+                if(response){
+                    setDislike();
+                }
+                console.log(hasLiked)
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    }
+
+    const callDislike = () => {
+        addDislike().then(r => setChange(state => (state + 1)));
+    }
 
     return (
         <div style={{ marginLeft: '15%', marginRight: '15%'
@@ -105,9 +172,9 @@ const ProgramPage: React.FC = () => {
             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Informations</Typography>
             <Stack direction="row" spacing={1}>
                 <Chip label={getTotalRecommandedTime() +"min"} color="primary"/>
-                <Chip label={"Strength Program"} color="primary" variant="outlined"/>
-                <Chip label={"Intermediate"} color="primary"/>
-                <Chip label="Theo URIOT" color="primary"  variant="outlined"/>
+                <LevelChip id={program.idLevel}/>
+                <CatChip id={program.idCategory}/>
+                <CoachChip id={program.creator}/>
             </Stack>
             <br/>
             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>What is the purpose of this program ?</Typography>
@@ -142,6 +209,16 @@ const ProgramPage: React.FC = () => {
                 </TableBody>
             </Table>
         </TableContainer>
+            {!hasLiked
+                ?
+                    <Button variant="contained" onClick={callLike} endIcon={<ThumbUpIcon/>}>
+                        {program.likeCount}
+                    </Button>
+                :
+                    <Button variant="contained" color="success" onClick={callDislike} endIcon={<ThumbUpIcon/>}>
+                        {program.likeCount}
+                    </Button>
+            }
         </div>
     );
 };

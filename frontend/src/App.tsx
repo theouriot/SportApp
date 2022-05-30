@@ -25,6 +25,7 @@ const theme = createTheme({
             contrastText: '#000',
         },
     },
+
 });
 
 function App() {
