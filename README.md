@@ -12,4 +12,7 @@ Another part of the web application will be the coach part. Coaches will be able
 
 For the client part, I chose to use React Framework coupling it with typescript. I chose this framework for a few reasons. The first one is that I already used Angular, thus I think it is a good idea to discover the other "big" or at least the other competitor of angular to expand my skills. In second hand, I'm planning to do an intership this summer as a fullstack developper in a company that uses React, therefor it's a good idea to have a background in React. I also want to use Typescript with React because I really love the fact to organise JS which is messy language. I would like to structure my code by typing my objects. 
 
-For the server side, I chose to use GraphQL with the Apollo framework. I chose this technology because it is a recent technology that I believe in. The way the api is called and all the optimisation that goes with it confirms me in this choice. The fact GraphQL works with schema goes in the same direction as my client part choice (with typescript). I would have a strongly typed code. Finnaly, I have already some knowledge in SQL database and a bit in No-SQL, so I think it is a good idea to explore a new type of database.  
+For the server side, I chose to use MongoDB with express. I chose these technologies because I wanted to improve my knowledge in mongoDB.  I have a bit of knowledge in No-SQL, so I think it is a good idea to explore it more. Furthermore, I have an internship with the MERN stack this summer. So I think it was a good thing to make a complete project with MongoDB.
+
+Website Presentation: https://youtu.be/Ua8tzAw9HY0
+Code Review: https://www.youtube.com/watch?v=fWS0t4HZbXs
