@@ -1,16 +1,10 @@
 import React, {Fragment} from "react";
 import {useEffect, useState} from "react";
 
-import ArticleService from "../../../services/ArticleService";
-import Article from "../../../types/Article"
-
-import Card from '@mui/material/Card';
 import {
     Avatar,
-    CardHeader,
-    CardMedia,
     Divider,
-    Grid,
+    Grow,
     List,
     ListItem,
     ListItemAvatar,
@@ -21,7 +15,6 @@ import FaceIcon from '@mui/icons-material/Face';
 import CoachService from "../../../services/CoachService";
 import Coach from "../../../types/Coach";
 import ClientNavbarLayout from "../ClientNavbarLayout";
-import ImageIcon from '@mui/icons-material/Image';
 
 
 const CoachPresentation: React.FC = () => {
@@ -57,14 +50,16 @@ const CoachPresentation: React.FC = () => {
                 {coaches.slice(0,6).map((coach,index) => (
                     <Fragment key={index}>
                         <Link to={"/coach/"+ coach._id} key={index} style={{textDecoration:"none" }}>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <FaceIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary={coach.alias} secondary={coach.email} />
-                            </ListItem>
+                            <Grow in={true} timeout={3000}>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <FaceIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={coach.alias} secondary={coach.email} />
+                                </ListItem>
+                            </Grow>
                         </Link>
                     <Divider variant="inset" component="li" />
                     </Fragment>

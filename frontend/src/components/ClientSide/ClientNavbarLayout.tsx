@@ -130,7 +130,7 @@ const ClientNavbarLayout = () => {
                         >
                             {settings.map((setting,index) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Link to={"/Profile"} key={index} style={{textDecoration:"none" }}>
+                                    <Link to={"/"+setting} key={index} style={{textDecoration:"none" }}>
                                       <Typography textAlign="center">{setting}</Typography>
                                     </Link>
                                 </MenuItem>

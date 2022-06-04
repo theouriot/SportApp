@@ -1,8 +1,6 @@
 import React from "react";
 import {useEffect, useState} from "react";
 
-
-import {Avatar, Chip} from "@mui/material";
 import Coach from "../../types/Coach";
 import CoachService from "../../services/CoachService";
 
@@ -10,14 +8,15 @@ interface Props {
     id: number;
 }
 
-const CatChip: React.FC<Props> = (props) => {
+const AuthorArticle: React.FC<Props> = (props) => {
     const [coach, setCoach] = useState<Coach>();
 
     useEffect(() => {
         const getCatProgramByID = async (id: any) => {
             await CoachService.getCoachByID(id)
                 .then((response: any) => {
-                    setCoach(response)
+                    console.log(id)
+                    setCoach(response);
                 })
                 .catch((e: Error) => {
                     console.log(e);
@@ -29,15 +28,11 @@ const CatChip: React.FC<Props> = (props) => {
     }, [props.id]);
 
     return (
-        <Chip
-            avatar={<Avatar alt={coach?.alias} src={coach?.alias} />}
-            label={coach?.alias}
-            variant="outlined"
-        />
+        <>{coach?.alias}</>
     );
 };
 
-export default CatChip;
+export default AuthorArticle;
 
 
 

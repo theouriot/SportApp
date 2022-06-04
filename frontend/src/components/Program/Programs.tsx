@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 import {useEffect, useState} from "react";
 
-import Card from '@mui/material/Card';
 import {
     Autocomplete,
     Avatar,
@@ -10,19 +9,21 @@ import {
     CardHeader,
     CardMedia,
     Chip,
-    Grid,
+    Grid, Grow,
     Stack,
-    TextField
+    TextField,
+    Card
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import Article from "../../types/Article";
-import ArticleService from "../../services/ArticleService";
 import ClientNavbarLayout from "../ClientSide/ClientNavbarLayout";
-import CatProgramService from "../../services/CatProgram";
-import LevelService from "../../services/LevelService";
+
 import Data from "../../types/Data";
 import Program from "../../types/Program";
+
+import CatProgramService from "../../services/CatProgram";
+import LevelService from "../../services/LevelService";
 import ProgramService from "../../services/ProgramService";
+
 import LevelChip from "../Chip/LevelChip";
 import CatChip from "../Chip/CatChip";
 
@@ -156,36 +157,38 @@ const ArticleBar: React.FC = () => {
                         <Grid item xs={2} sm={4} md={4} key={index}>
                                     <Grid item xs={4}>
                                         <Link to={"/program/"+ program._id} key={index} style={{textDecoration:"none" }}>
-                                            <Card sx={{ width: 400,borderRadius: "20px" }}>
-                                                <CardHeader
-                                                    avatar={
-                                                        <Avatar aria-label="recipe">
-                                                            R
-                                                        </Avatar>
-                                                    }
-                                                    title={program.name}
-                                                    subheader={program.description}
-                                                />
-                                                <CardMedia
-                                                    component="img"
-                                                    height="194"
-                                                    image={require('../../images/homePageImage.jpg')} // require image
-                                                    alt="descriptive image"
-                                                />
-                                                <CardContent>
-                                                    <Stack direction="row" spacing={1}>
-                                                        <CatChip id={program.idCategory}/>
-                                                        <LevelChip id={program.idLevel}/>
-                                                        <Chip
-                                                            label={program.viewCount + " views"}
-                                                            variant="outlined"
-                                                        />
-                                                        <Chip
-                                                            label={program.likeCount + " likes"}
-                                                        />
-                                                    </Stack>
-                                                </CardContent>
-                                            </Card>
+                                            <Grow in={true} timeout={2000}>
+                                                <Card sx={{ width: 400,borderRadius: "20px" }}>
+                                                    <CardHeader
+                                                        avatar={
+                                                            <Avatar aria-label="recipe">
+                                                                R
+                                                            </Avatar>
+                                                        }
+                                                        title={program.name}
+                                                        subheader={program.description}
+                                                    />
+                                                    <CardMedia
+                                                        component="img"
+                                                        height="194"
+                                                        image={require('../../images/homePageImage.jpg')} // require image
+                                                        alt="descriptive image"
+                                                    />
+                                                    <CardContent>
+                                                        <Stack direction="row" spacing={1}>
+                                                            <CatChip id={program.idCategory}/>
+                                                            <LevelChip id={program.idLevel}/>
+                                                            <Chip
+                                                                label={program.viewCount + " views"}
+                                                                variant="outlined"
+                                                            />
+                                                            <Chip
+                                                                label={program.likeCount + " likes"}
+                                                            />
+                                                        </Stack>
+                                                    </CardContent>
+                                                </Card>
+                                            </Grow>
                                         </Link>
                                     </Grid>
                         </Grid>

@@ -1,10 +1,8 @@
 import React from "react";
 import {useEffect, useState} from "react";
 
-
 import {Chip} from "@mui/material";
 import CatProgramService from "../../services/CatProgram";
-import Data from "../../types/Data";
 
 interface Props {
     id: number;

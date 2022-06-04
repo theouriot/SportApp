@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import LogoImg from '../../images/logo.jpg';
 
 const pages = ['MySpace', 'NewProgram', 'NewArticle'];
-const settings = ['Profile', 'Account', 'Logout'];
+const settings = ['Logout'];
 
 
 const CoachNavbarLayout = () => {
@@ -36,6 +36,7 @@ const CoachNavbarLayout = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
 
     return (
         <AppBar style={{ background: '#000000'}} position="fixed">
@@ -128,9 +129,11 @@ const CoachNavbarLayout = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
+                            {settings.map((setting,index) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                    <Link to={"/"+setting} key={index} style={{textDecoration:"none" }}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </Link>
                                 </MenuItem>
                             ))}
                         </Menu>

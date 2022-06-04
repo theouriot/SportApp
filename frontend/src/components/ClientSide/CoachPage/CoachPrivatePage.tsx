@@ -7,7 +7,7 @@ import ClientNavbarLayout from "../ClientNavbarLayout";
 import {Avatar, CardContent, CardHeader, Chip, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ArticlesByCoach from "../../CoachSide/Article/ArticlesByCoach";
-import ProgramsByCoach from "../../CoachSide/Program/ProgramsByCoach";
+import ProgramsByCoach from "../../Program/ProgramsByCoach";
 import Coach from "../../../types/Coach";
 import CoachService from "../../../services/CoachService";
 import Card from "@mui/material/Card";
@@ -63,6 +63,7 @@ const CoachPrivatePage: React.FC = () => {
                     </Stack>
                 </CardContent>
             </Card>
+            <br/>
             <Typography variant="h5">{coach?.alias}'s Articles</Typography>
             <ArticlesByCoach coachId={props.id}></ArticlesByCoach>
             <Typography variant="h5">{coach?.alias}'s Programs</Typography>

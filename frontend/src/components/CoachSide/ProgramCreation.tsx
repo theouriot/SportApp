@@ -1,5 +1,5 @@
 import * as React from 'react';
-import CoachNavbarLayout from "../CoachNavbarLayout";
+import CoachNavbarLayout from "./CoachNavbarLayout";
 import {
     Box,
     Button, Card, CardContent, FormControl, MenuItem, Select, SelectChangeEvent, Stack,
@@ -12,20 +12,22 @@ import {
 import {useEffect, useRef, useState} from "react";
 
 import TextField from "@mui/material/TextField";
-import Data from "../../../types/Data";
-import CatProgramService from "../../../services/CatProgram";
-import LevelService from "../../../services/LevelService";
-import ProgramService from "../../../services/ProgramService";
-import Program from "../../../types/ProgramCreation";
+import Data from "../../types/Data";
+import CatProgramService from "../../services/CatProgram";
+import LevelService from "../../services/LevelService";
+import ProgramService from "../../services/ProgramService";
+import Program from "../../types/ProgramCreation";
 import List from "@mui/material/List";
 import {TransitionGroup} from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
 import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-import StepModel from "../../../types/Step"
-import StepService from "../../../services/StepService";
+import Client from "../../types/Client"
+import StepModel from "../../types/Step"
+import StepService from "../../services/StepService";
+import {useNavigate} from "react-router-dom";
+import {useUser} from "../context/UserContext";
 const steps = [
     'Program Informations',
     'Add different steps',
@@ -45,14 +47,12 @@ const FRUITS = [
     10,
 ];
 
-interface Test{
-    program: string;
-}
-
-export default function Creation() {
+export default function ProgramCreation() {
+    var programId = "";
+    let navigate = useNavigate();
+    const { user } = useUser();
 
     const [activeStep, setActiveStep] = useState(0);
-    const [program, setProgram] = useState<Test>();
     const [catPrograms, setCatPrograms] = useState<Array<Data>>([]);
     const [levels, setLevels] = useState<Array<Data>>([]);
 
@@ -70,18 +70,14 @@ export default function Creation() {
     const [stepTime] = useState([]);
 
     const handleAddFruit = () => {
-        console.log(fruitsInBasket)
         const nextHiddenItem = FRUITS.find((i) => !fruitsInBasket.includes(i));
         if (nextHiddenItem) {
             setFruitsInBasket((prev) => [nextHiddenItem, ...prev]);
         }
-        console.log(fruitsInBasket)
     };
 
     const handleRemoveFruit = (item: number) => {
-        console.log(fruitsInBasket)
         setFruitsInBasket((prev) => [...prev.filter((i) => i !== item)]);
-        console.log(fruitsInBasket)
     };
 
     const addFruitButton = (
@@ -90,56 +86,54 @@ export default function Creation() {
             disabled={fruitsInBasket.length >= 10}
             onClick={handleAddFruit}
         >
-            Add fruit to basket
+            Add Step
         </Button>
     );
 
-    const handleChangeStepName = (event: any) => {
-        const value = event.target.value as string
-        if(value.startsWith(stepName[stepName.length-1])){
-            // We remove the previous item
-            stepName.pop();
-            // We add a new one
-            // @ts-ignore
-            stepName.push(event.target.value as string);
-        }
-        else{
-            // @ts-ignore
-            stepName.push(event.target.value as string);
-        }
-    };
+    /* STEPS PART */
 
-    const handleChangeStepDescription = (event: any) => {
-        const description = event.target.value as string
-        if(description.startsWith(stepDescription[stepDescription.length-1])){
-            // We remove the previous item
-            stepDescription.pop();
-            // We add a new one
-            // @ts-ignore
-            stepDescription.push(event.target.value as string);
-        }
-        else{ // New item case
-            // @ts-ignore
-            stepDescription.push(event.target.value as string);
-        }
+    const stepNameInput = useRef(null);
+    const stepDescriptionInput = useRef(null);
+    const stepTimeInput = useRef(null);
+    const stepSetsInput = useRef(null);
+    const stepRepsInput = useRef(null);
 
-    };
-
-    const handleChangeStepSets = (event: any) => {
+    const handleStepName = () => {
         // @ts-ignore
-        stepSets.push(event.target.value);
-    };
-
-    const handleChangeStepReps = (event: any) => {
+        console.log(stepNameInput.current.value)
         // @ts-ignore
-        stepReps.push(event.target.value);
+        stepName.push(stepNameInput.current.value);
     };
 
-    const handleChangeStepTime = (event: any) => {
+    const handleStepDescription = () => {
         // @ts-ignore
-        stepTime.push(event.target.value);
+        console.log(stepDescriptionInput.current.value)
+        // @ts-ignore
+        stepDescription.push(stepDescriptionInput.current.value);
     };
 
+    const handleStepSets = () => {
+        // @ts-ignore
+        console.log(stepSetsInput.current.value)
+        // @ts-ignore
+        stepSets.push(stepSetsInput.current.value);
+    };
+
+    const handleStepReps = () => {
+        // @ts-ignore
+        console.log(stepRepsInput.current.value)
+        // @ts-ignore
+        stepReps.push(stepRepsInput.current.value);
+    };
+
+    const handleStepTime = () => {
+        // @ts-ignore
+        console.log(stepTimeInput.current.value)
+        // @ts-ignore
+        stepTime.push(stepTimeInput.current.value);
+    };
+
+    /* PROGRAM PART */
     const handleChangeName = (event: any) => {
         setProgramName(event.target.value as string);
     };
@@ -147,8 +141,6 @@ export default function Creation() {
     const handleChange = (event: SelectChangeEvent) => {
         setSelectedCat(event.target.value as string);
     };
-
-
 
     const handleChangeLevel = (event: SelectChangeEvent) => {
         setSelectedLevel(event.target.value as string);
@@ -165,13 +157,17 @@ export default function Creation() {
     const createProgram = async (data: Program) => {
         await ProgramService.create(data)
             .then((response: any) => {
-                console.log(response);
-                setProgram(response);
+                addProg(response.data)
+                navigate("/myspace");
             })
             .catch((e: Error) => {
                 console.log(e);
             });
     };
+
+    const addProg = (value: string ) => {
+        programId = value;
+    }
 
     useEffect(() => {
         const getCatPrograms = async () => {
@@ -203,21 +199,18 @@ export default function Creation() {
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         if(activeStep === steps.length - 1){
+            /* I have chosen to separate the program and step creation in the case of there is a problem with the steps */
             const programObject = new Program(programName,"627d5c59a954d6948e703363",selectedCat,selectedLevel,programDescription," ");
-            createProgram(programObject).then(r => "ok");
-            console.log("prog",program);
-
-            for(let i = 0; i< stepName.length ;i++){
-                console.log("step name",stepName[i])
-                console.log("step description",stepDescription[i])
-
-                const step = new StepModel(stepName[i],i+1," ", stepSets[i],stepReps[i],stepDescription[i],stepTime[i])
-                //addStep(program.)
-            }
+            createProgram(programObject).then((r) => {
+                for(let i = 0; i< stepName.length ;i++){
+                    const step = new StepModel(stepName[i],i+1," ", stepSets[i],stepReps[i],stepDescription[i],stepTime[i])
+                    addStep(programId, step).then(r => "ok")
+                }
+            } );
         }
     };
 
-    const addStep = async (id: string, data: StepModel) => {
+    const addStep = async (id: any, data: StepModel) => {
         await StepService.create(id,data)
             .then((response: any) => {
                 return(response);
@@ -230,7 +223,9 @@ export default function Creation() {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
-
+    if(user instanceof Client){
+        navigate("/")
+    }
     return (
         <>
             <CoachNavbarLayout></CoachNavbarLayout>
@@ -371,17 +366,18 @@ export default function Creation() {
                                                                                     label="Step Name"
                                                                                     name="name"
                                                                                     autoComplete="name"
-                                                                                    autoFocus
-                                                                                    onChange={handleChangeStepName}
+                                                                                    onBlur={handleStepName}
+                                                                                    inputRef={stepNameInput}
                                                                                 />
-                                                                                <TextareaAutosize
-                                                                                    id="content"
-                                                                                    name="content"
-                                                                                    aria-label="minimum height"
-                                                                                    minRows={5}
-                                                                                    placeholder="Write here ! (or copy and past here) "
-                                                                                    style={{ width: '60%' }}
-                                                                                    onChange={handleChangeStepDescription}
+                                                                                <TextField
+                                                                                    margin="normal"
+                                                                                    required
+                                                                                    id="name"
+                                                                                    label="Description"
+                                                                                    name="name"
+                                                                                    autoComplete="name"
+                                                                                    onBlur={handleStepDescription}
+                                                                                    inputRef={stepDescriptionInput}
                                                                                 />
                                                                                 <Stack direction="row" alignItems="center" spacing={2}>
                                                                                     <TextField
@@ -390,11 +386,11 @@ export default function Creation() {
                                                                                         id="sets"
                                                                                         label="Sets"
                                                                                         name="sets"
-                                                                                        autoFocus
                                                                                         sx={{ width: "100%"}}
                                                                                         inputProps={{ min: 1, max: 100 }}
                                                                                         type="number"
-                                                                                        onChange={handleChangeStepSets}
+                                                                                        onBlur={handleStepSets}
+                                                                                        inputRef={stepSetsInput}
                                                                                     />
                                                                                     <TextField
                                                                                         margin="normal"
@@ -402,11 +398,11 @@ export default function Creation() {
                                                                                         id="reps"
                                                                                         label="Reps"
                                                                                         name="reps"
-                                                                                        autoFocus
                                                                                         sx={{ width: "100%"}}
                                                                                         inputProps={{ min: 1, max: 100 }}
                                                                                         type="number"
-                                                                                        onChange={handleChangeStepReps}
+                                                                                        onBlur={handleStepReps}
+                                                                                        inputRef={stepRepsInput}
                                                                                     />
                                                                                     <TextField
                                                                                         margin="normal"
@@ -414,11 +410,11 @@ export default function Creation() {
                                                                                         id="time"
                                                                                         label="Time (in min)"
                                                                                         name="time"
-                                                                                        autoFocus
                                                                                         sx={{ width: "120%"}}
                                                                                         inputProps={{ min: 1, max: 100 }}
                                                                                         type="number"
-                                                                                        onChange={handleChangeStepTime}
+                                                                                        onBlur={handleStepTime}
+                                                                                        inputRef={stepTimeInput}
                                                                                     />
                                                                                     <label htmlFor="contained-button-file">
                                                                                         <input

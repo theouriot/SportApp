@@ -14,6 +14,7 @@ import HubTemplate from "./HubTemplate";
 import AuthService from "../../services/AuthService";
 import User from "../../types/User";
 import {Alert, Snackbar} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 const theme = createTheme();
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -25,6 +26,7 @@ export default function SignInSide() {
     const [validPassword, setValidPassword] = React.useState(true);
     const [invalid, setInvalid] = React.useState(false);
     const [password, setPassword] = React.useState("");
+    let navigate = useNavigate();
 
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === "clickaway") {
@@ -46,10 +48,10 @@ export default function SignInSide() {
     };
 
     const signUpClient = async (data: any) => {
-        console.log(data);
         await AuthService.signUpClient(data)
             .then((response: any) => {
-                console.log(response);
+                navigate('/');
+                return <Alert severity="success">You are now registered !</Alert>
             })
             .catch((e: Error) => {
                 setInvalid(true)
@@ -64,7 +66,8 @@ export default function SignInSide() {
     const signUpCoach = async (data: any) => {
         await AuthService.signUpCoach(data)
             .then((response: any) => {
-                console.log(response);
+                navigate('/');
+                return <Alert severity="success">You are now registered !</Alert>
             })
             .catch((e: Error) => {
                 console.log(e);

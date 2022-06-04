@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {UserContext} from "./UserContext";
+import {UserContext} from "./context/UserContext";
 
 import {
     BrowserRouter,
@@ -11,25 +11,25 @@ import Protected from "./Protected";
 
 import CallPage from "./HomePage/CallPage";
 import ArticlePage from "./ClientSide/Article/ArticlePage";
-import ClientHomePage from "./ClientSide/ClientHome/ClientHomePage";
+import ClientHomePage from "./ClientSide/ClientHomePage";
 import ArticlesPage from "./ClientSide/Article/ArticlesPage";
 import Programs from "./Program/Programs";
-import ProgramPage from "./ClientSide/Programs/ProgramPage";
+import ProgramPage from "./Program/ProgramPage";
 
-import Client from "../types/Client";
 /* Coach Side */
 import CoachHome from "./CoachSide/CoachHomePage";
-import ArticleCreation from "./CoachSide/Article/ArticleCreation"
+import ArticleCreation from "./CoachSide/ArticleCreation"
 import ChangeInfos from "./ClientSide/ChangeInfos";
-import Creation from "./CoachSide/Program/Creation";
+import ProgramCreation from "./CoachSide/ProgramCreation";
 import CoachPresentation from "./ClientSide/CoachPage/CoachPresentation";
 import CoachPrivatePage from "./ClientSide/CoachPage/CoachPrivatePage";
-
+import LogOut from "./HomePage/LogOut";
 
 const AppRoutes = () => {
 
     const [user, setUser] = React.useState(null);
 
+    // @ts-ignore
     return (
         <Fragment>
             <UserContext.Provider value={{user,setUser}}>
@@ -40,6 +40,13 @@ const AppRoutes = () => {
                            element={
                                <Protected isLoggedIn={user !== null}>
                                    <ClientHomePage />
+                               </Protected>
+                           }
+                    />
+                    <Route path='/Logout/'
+                           element={
+                               <Protected isLoggedIn={user !== null}>
+                                   <LogOut />
                                </Protected>
                            }
                     />
@@ -93,7 +100,7 @@ const AppRoutes = () => {
                     } />
                     <Route path="/newprogram" element={
                         <Protected isLoggedIn={user !== null}>
-                            <Creation />
+                            <ProgramCreation />
                         </Protected>
                     } />
                 </Routes>

@@ -42,6 +42,19 @@ router.post("/login", async function (req, res, next) {
     }
 });
 
+router.post("/logout", async function (req, res, next) {
+    try {
+        console.log(req.body)
+        const logout = await authentificationController.logout(req.body);
+        if(!logout){
+            return res.status(204).json({message: "No client or coach with this id"});
+        }
+        res.status(201).json(logout);
+    } catch (e) {
+        res.status(400).json({ message: "can't load data" });
+    }
+});
+
 
 module.exports = router;
 

@@ -2,8 +2,12 @@ import http from "../http-common";
 import CommentData from "../types/Comment"
 
 const login = async (data: any) => {
-    console.log(data)
     const tmp =  await http.post<CommentData>(`/auth/login`, data);
+    return  tmp.data
+};
+
+const logout = async (data: any) => {
+    const tmp =  await http.post<any>(`/auth/logout`,data);
     return  tmp.data
 };
 
@@ -20,6 +24,7 @@ const signUpCoach = async (data: any) => {
 
 const AuthService = {
     login,
+    logout,
     signUpCoach,
     signUpClient
 };

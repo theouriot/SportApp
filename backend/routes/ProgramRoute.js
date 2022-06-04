@@ -4,11 +4,12 @@ const programController = require("../controllers/ProgramController");
 router.post("/", async function (req, res, next) {
     try {
         const program = await programController.createProgram(req.body);
-        res.status(201).json({program});
+        res.status(201).json(program);
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
 });
+
 router.get("/all", async function (req, res, next) {
     try {
         const programs = await programController.getAllPrograms();

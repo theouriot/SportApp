@@ -126,7 +126,11 @@ async function loginCoach(body) {
         return false;
     }
 }
-
+const logout = (id) => {
+    return jwt.sign({ id }, process.env.SECRET_TOKEN, {
+        expiresIn: '1',
+    })
+}
 
 /* Generate JWT */
 const tokenGeneration = (id) => {
@@ -139,5 +143,6 @@ module.exports = {
     signUpClient,
     signUpCoach,
     loginClient,
-    loginCoach
+    loginCoach,
+    logout
 };

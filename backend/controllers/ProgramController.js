@@ -140,7 +140,6 @@ async function addDislike(id,idClient) {
                     }
                 }
             );
-
             return res;
     } catch (e) {
         throw e;

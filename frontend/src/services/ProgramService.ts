@@ -38,8 +38,14 @@ const addDislike = async (id: any, idClient: any) => {
 }
 
 const create = async (data: ProgramCreationData) => {
-    const tmp =  await http.post<ProgramData>("/program", data);
-    return  tmp.data;
+    const tmp =  await http.post<any>("/program", data);
+    console.log("tmp",tmp.data)
+    return  tmp;
+};
+
+const remove = async (id: any) => {
+    const tmp = await http.delete<any>(`/program/?id=${id}`);
+    return tmp.data;
 };
 
 const ProgramService = {
@@ -50,7 +56,8 @@ const ProgramService = {
     addView,
     create,
     addLike,
-    addDislike
+    addDislike,
+    remove
 };
 
 export default ProgramService;

@@ -1,31 +1,37 @@
 import * as React from 'react';
-import CoachNavbarLayout from "../CoachNavbarLayout";
+import CoachNavbarLayout from "./CoachNavbarLayout";
 import {Box, Button, Stack, TextareaAutosize, TextField} from "@mui/material";
-import ArticleService from "../../../services/ArticleService";
-import ArticleCreation from "../../../types/ArticleCreation";
+import ArticleService from "../../services/ArticleService";
+import ArticleCreation from "../../types/ArticleCreation";
 
-import {useUser} from "../../UserContext";
+import {useUser} from "../context/UserContext";
+import {useNavigate} from "react-router-dom";
+import Client from "../../types/Client";
 
 export default function ClientHomePage() {
     const {user} = useUser();
+    let navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const article = new ArticleCreation(data.get('name'),user?._id,data.get('description'),data.get('content')," ");
-        createComment(article).then(() => "ok");
+        createArticle(article).then(() => "ok");
     };
 
-    const createComment = async (data: ArticleCreation) => {
+    const createArticle = async (data: ArticleCreation) => {
         await ArticleService.create(data)
             .then((response: any) => {
-                console.log(response);
+                navigate("/myspace");
             })
             .catch((e: Error) => {
                 console.log(e);
             });
     };
 
+    if(user instanceof Client){
+        navigate("/");
+    }
     return (
         <>
             <CoachNavbarLayout></CoachNavbarLayout>
@@ -33,7 +39,7 @@ export default function ClientHomePage() {
             <br/>
             <br/>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            New program
+            New Article
                 <Stack direction="column" alignItems="center" spacing={2}>
                     <TextField
                         margin="normal"
@@ -80,7 +86,7 @@ export default function ClientHomePage() {
                             fontSize: "18px"
                         }}
                     >
-                        Login
+                        Create
                     </Button>
                 </Stack>
             </Box>

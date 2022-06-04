@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
-import Client from "../types/Client";
-import Coach from "../types/Coach";
+import Client from "../../types/Client";
+import Coach from "../../types/Coach";
 
 export type UserContextType = {
         user: Client | Coach | null;

@@ -5,7 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {useUser} from "../UserContext";
+import {useUser} from "../context/UserContext";
 import {Box} from "@mui/material";
 
 import TextField from "@mui/material/TextField";

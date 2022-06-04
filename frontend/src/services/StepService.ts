@@ -3,13 +3,13 @@ import StepData from "../types/Step";
 
 
 const create = async (id:any, data: StepData) => {
-    const tmp =  await http.post<StepData>(`/article?id=${id}`, data);
+    const tmp =  await http.post<StepData>(`/step?id=${id}`, data);
     return  tmp.data;
 };
 
 
-const ArticleService = {
+const StepService = {
     create
 };
 
-export default ArticleService;
+export default StepService;

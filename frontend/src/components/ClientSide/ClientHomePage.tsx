@@ -3,28 +3,28 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
-import ArticleBar from "../Article/ArticleBar";
-import ClientNavbarLayout from "../ClientNavbarLayout";
-import ProgramBar from "../Programs/ProgramBar";
+import ArticleBar from "./Article/ArticleBar";
+import ClientNavbarLayout from "./ClientNavbarLayout";
+import ProgramBar from "../Program/ProgramBar";
 
-import {useUser} from "../../UserContext";
 import {Link} from "react-router-dom";
+import { Grow} from "@mui/material";
 
 const images = [
     {
-        url: require('../../../images/caloriesBurned.jpg'),
-        title: "Today's Infos",
+        url: require('../../images/articles/article1.jpg'),
+        title: "Search for an article",
         width: '40%',
-        redirection: '/programs'
+        redirection: '/articles'
     },
     {
-        url: require('../../../images/addActivity.jpg'),
-        title: 'Add an activity',
+        url: require('../../images/avatar_coach.jpg'),
+        title: 'Coaches',
         width: '30%',
-        redirection: '/programs'
+        redirection: '/coaches'
     },
     {
-        url: require('../../../images/activityImage.jpg'),
+        url: require('../../images/activityImage.jpg'),
         title: 'Search for a program',
         width: '30%',
         redirection: '/programs'
@@ -96,7 +96,6 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 export default function ClientHomePage() {
-
     return (
         <>
             <header>
@@ -106,7 +105,6 @@ export default function ClientHomePage() {
             <br/>
             <br/>
             <br/>
-
         <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
             {images.map((image,index) => (
 
@@ -140,10 +138,14 @@ export default function ClientHomePage() {
                 </ImageButton>
             ))}
         </Box>
-            <Typography variant="h5">Last Activities</Typography>
-            <ProgramBar></ProgramBar>
-            <Typography variant="h5">Articles</Typography>
-            <ArticleBar></ArticleBar>
+            <Grow in={true} timeout={3000}>
+                <Typography variant="h5">Last Programs</Typography>
+            </Grow>
+                <ProgramBar></ProgramBar>
+            <Grow in={true} timeout={3000}>
+                <Typography variant="h5">Last Articles</Typography>
+            </Grow>
+                <ArticleBar></ArticleBar>
         </>
     );
 }

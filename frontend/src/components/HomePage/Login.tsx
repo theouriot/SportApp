@@ -18,14 +18,14 @@ import Client from "../../types/Client";
 import AuthService from "../../services/AuthService";
 import {AccountCircle} from "@mui/icons-material";
 import {InputAdornment} from "@mui/material";
-import {useUser} from "../UserContext";
+import {useUser} from "../context/UserContext";
 import Coach from "../../types/Coach";
 
 const theme = createTheme();
 
 export default function SignInSide() {
     let navigate = useNavigate();
-    const { user, setUser } = useUser();
+    const { setUser } = useUser();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
