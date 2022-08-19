@@ -11,7 +11,7 @@ Another part of the web application will be the coach part. Coaches will be able
 ## Technical
 
 For the client part, I chose to use React Framework coupling it with typescript. I chose this framework for a few reasons. The first one is that I already used Angular, thus I think it is a good idea to discover the other "big" or at least the other competitor of angular to expand my skills. In second hand, I'm planning to do an intership this summer as a fullstack developper in a company that uses React, therefor it's a good idea to have a background in React. I also want to use Typescript with React because I really love the fact to organise JS which is messy language. I would like to structure my code by typing my objects. 
-
+x
 For the server side, I chose to use MongoDB with express framework. I chose this technology because it is a recent technology that I believe in. I think the "document orientation" is good for my project. Finnaly, I have already some knowledge in SQL database and a bit in No-SQL, so I think it is a good idea to explore a bit more NO-SQL database since I have never used it in a project. Another point, is the fact that during my future internship this summer I will use the MERN stack, so with MongoDB. Chose MongoDB was a good choice to improve my skill and to practice for my internship.  
 
 Website presentation: https://youtu.be/wYMSZcl84Ns
