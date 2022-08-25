@@ -2,7 +2,6 @@ const ClientModel = require('../../models/Client');
 const CoachModel = require('../../models/Coach');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs')
-const asyncHandler = require('express-async-handler')
 
 async function signUpClient(body) {
     try {
@@ -73,11 +72,11 @@ async function signUpCoach(body) {
 
 async function loginClient(body) {
     const { alias, email, password } = body
-
     // Check for user email
     const clientMail = await ClientModel.findOne({ email })
     const clientAlias = await ClientModel.findOne({ alias })
-
+    console.log(clientAlias)
+    console.log(clientMail)
     if (clientMail  && (await bcrypt.compare(password, clientMail.password))) {
         return ({
             _id: clientMail._id,

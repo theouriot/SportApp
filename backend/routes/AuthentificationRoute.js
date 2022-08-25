@@ -36,7 +36,7 @@ router.post("/login", async function (req, res, next) {
             }
             res.status(201).json(coach);
         }
-        res.status(201).json( client);
+        res.status(201).json(client);
     } catch (e) {
         res.status(400).json({ message: "can't load data" });
     }
